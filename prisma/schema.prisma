@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Package {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  title           String
+  category        String
+  description     String
+  longDescription String
+  destination     String
+  duration        String
+  difficulty      String?
+  species         String?
+  priceUsd        Float
+  depositPercent  Int       @default(30)
+  maxGuests       Int       @default(12)
+  imageUrl        String
+  highlights      String
+  included        String
+  excluded        String
+  active          Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  bookings        Booking[]
+}
+
+model Booking {
+  id              String    @id @default(cuid())
+  bookingRef      String    @unique
+  packageId       String
+  package         Package   @relation(fields: [packageId], references: [id])
+  customerName    String
+  customerEmail   String
+  customerPhone   String?
+  country         String?
+  guests          Int
+  startDate       DateTime
+  specialRequests String?
+  totalAmount     Float
+  depositAmount   Float
+  currency        String    @default("USD")
+  status          String    @default("pending")
+  paymentMethod   String?
+  paymentId       String?
+  paypalOrderId   String?
+  paidAt          DateTime?
+  receiptNumber   String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
