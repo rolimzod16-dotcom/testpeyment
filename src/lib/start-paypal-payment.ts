@@ -1,7 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { createPayPalOrder, type PayPalPaymentType } from "@/lib/paypal";
 
-export async function startPayPalPayment(bookingId: string, paymentType: PayPalPaymentType) {
+export async function startPayPalPayment(
+  bookingId: string,
+  paymentType: PayPalPaymentType,
+  locale = "en"
+) {
   const booking = await prisma.booking.findUnique({
     where: { id: bookingId },
     include: { package: true },
@@ -22,6 +26,7 @@ export async function startPayPalPayment(bookingId: string, paymentType: PayPalP
     bookingId: booking.id,
     description: `${booking.package.title} — Deposit`,
     paymentType,
+    locale,
   });
 
   await prisma.booking.update({

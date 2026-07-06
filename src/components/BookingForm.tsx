@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { Package } from "@/generated/prisma/client";
+import { useRouter } from "@/i18n/navigation";
 import { calculateDeposit, formatCurrency } from "@/lib/utils";
 
 export function BookingForm({ pkg }: { pkg: Package }) {
+  const t = useTranslations("booking");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -37,10 +39,10 @@ export function BookingForm({ pkg }: { pkg: Package }) {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Booking failed");
+      if (!res.ok) throw new Error(data.error || t("failed"));
       router.push(`/payment/${data.bookingId}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(err instanceof Error ? err.message : t("error"));
       setLoading(false);
     }
   }
@@ -48,55 +50,57 @@ export function BookingForm({ pkg }: { pkg: Package }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-5 border border-[hsl(218,55%,12%)]/10 bg-white p-6 shadow-sm"
+      className="space-y-5 rounded-2xl border border-black/[0.06] bg-white p-6 shadow-sm"
     >
       <div>
-        <h2 className="font-serif text-2xl font-medium text-[hsl(218,55%,12%)]">
-          Book This Expedition
-        </h2>
-        <p className="mt-1 text-sm text-[hsl(218,55%,12%)]/65">
-          Deposit today: {formatCurrency(deposit)} ({pkg.depositPercent}% of {formatCurrency(total)})
+        <h2 className="text-2xl font-semibold tracking-tight text-foreground">{t("title")}</h2>
+        <p className="mt-1 text-sm text-muted">
+          {t("depositToday", {
+            deposit: formatCurrency(deposit),
+            percent: pkg.depositPercent,
+            total: formatCurrency(total),
+          })}
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="text-sm text-[hsl(218,55%,12%)]/75">Full Name *</span>
+          <span className="text-sm text-foreground/75">{t("fullName")}</span>
           <input
             name="customerName"
             required
-            className="mt-1 w-full border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
-            placeholder="John Smith"
+            className="mt-1 w-full rounded-lg border border-black/[0.1] bg-surface px-3 py-2 text-foreground"
+            placeholder={t("namePlaceholder")}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-[hsl(218,55%,12%)]/75">Email *</span>
+          <span className="text-sm text-foreground/75">{t("email")}</span>
           <input
             name="customerEmail"
             type="email"
             required
-            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
-            placeholder="john@email.com"
+            className="mt-1 w-full rounded-lg border border-black/[0.1] bg-surface px-3 py-2 text-foreground"
+            placeholder={t("emailPlaceholder")}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-[hsl(218,55%,12%)]/75">Phone</span>
+          <span className="text-sm text-foreground/75">{t("phone")}</span>
           <input
             name="customerPhone"
-            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
-            placeholder="+1 555 000 0000"
+            className="mt-1 w-full rounded-lg border border-black/[0.1] bg-surface px-3 py-2 text-foreground"
+            placeholder={t("phonePlaceholder")}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-[hsl(218,55%,12%)]/75">Country</span>
+          <span className="text-sm text-foreground/75">{t("country")}</span>
           <input
             name="country"
-            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
-            placeholder="United States"
+            className="mt-1 w-full rounded-lg border border-black/[0.1] bg-surface px-3 py-2 text-foreground"
+            placeholder={t("countryPlaceholder")}
           />
         </label>
         <label className="block">
-          <span className="text-sm text-[hsl(218,55%,12%)]/75">Guests *</span>
+          <span className="text-sm text-foreground/75">{t("guests")}</span>
           <input
             name="guests"
             type="number"
@@ -104,39 +108,43 @@ export function BookingForm({ pkg }: { pkg: Package }) {
             max={pkg.maxGuests}
             defaultValue={1}
             required
-            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
+            className="mt-1 w-full rounded-lg border border-black/[0.1] bg-surface px-3 py-2 text-foreground"
           />
         </label>
         <label className="block">
-          <span className="text-sm text-[hsl(218,55%,12%)]/75">Preferred Start Date *</span>
+          <span className="text-sm text-foreground/75">{t("startDate")}</span>
           <input
             name="startDate"
             type="date"
             required
             min={new Date().toISOString().split("T")[0]}
-            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
+            className="mt-1 w-full rounded-lg border border-black/[0.1] bg-surface px-3 py-2 text-foreground"
           />
         </label>
       </div>
 
       <label className="block">
-        <span className="text-sm text-[hsl(218,55%,12%)]/75">Special Requests</span>
+        <span className="text-sm text-foreground/75">{t("specialRequests")}</span>
         <textarea
           name="specialRequests"
           rows={3}
-          className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
-          placeholder="Dietary needs, experience level, equipment requests..."
+          className="mt-1 w-full rounded-lg border border-black/[0.1] bg-surface px-3 py-2 text-foreground"
+          placeholder={t("requestsPlaceholder")}
         />
       </label>
 
-      {error && <p className="rounded-lg bg-red-950/50 px-3 py-2 text-sm text-red-300">{error}</p>}
+      {error && (
+        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 ring-1 ring-red-200">
+          {error}
+        </p>
+      )}
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-[hsl(35,65%,45%)] py-3 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[hsl(35,65%,38%)] disabled:opacity-60"
+        className="w-full rounded-full bg-foreground py-3 text-sm font-medium text-white transition hover:bg-foreground/90 disabled:opacity-60"
       >
-        {loading ? "Creating booking..." : `Continue to Payment — ${formatCurrency(deposit)}`}
+        {loading ? t("creating") : t("continue", { amount: formatCurrency(deposit) })}
       </button>
     </form>
   );

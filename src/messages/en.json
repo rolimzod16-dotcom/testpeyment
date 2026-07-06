@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "title": "International Tour Packages",
+    "description": "International tour packages with licensed hunting and survival challenges. Book online with secure payment."
+  },
+  "nav": {
+    "tours": "Tours",
+    "hunting": "Hunting",
+    "survival": "Survival Challenge",
+    "about": "About",
+    "bookTour": "Book a tour",
+    "openMenu": "Open menu"
+  },
+  "home": {
+    "toursEyebrow": "Tour Packages",
+    "toursTitle": "Explore the world.",
+    "toursDescription": "Curated international journeys. Book online, travel with confidence.",
+    "toursCta": "Browse tours",
+    "signatureEyebrow": "Signature",
+    "huntingTitle": "Hunting",
+    "huntingCta": "Explore hunting",
+    "survivalTitle": "Survival Challenge",
+    "survivalCta": "Take the challenge",
+    "agencyTitle": "A tour agency with something extra.",
+    "agencyDescription": "{siteName} is built around international tour packages — plus licensed hunting expeditions and survival challenges for travelers who want more than a standard trip.",
+    "featuredLabel": "Tour Packages",
+    "featuredTitle": "Featured tours",
+    "viewAllTours": "View all tours ›",
+    "stepsTitle": "Book in four simple steps.",
+    "step1Title": "Pick a package",
+    "step1Desc": "Tours, hunting, or survival.",
+    "step2Title": "Enter details",
+    "step2Desc": "Dates, guests, contact info.",
+    "step3Title": "Pay deposit",
+    "step3Desc": "Secure checkout via PayPal.",
+    "step4Title": "Get confirmed",
+    "step4Desc": "Instant confirmation & PDF receipt."
+  },
+  "categories": {
+    "tours": {
+      "navLabel": "Tours",
+      "pageTitle": "International Tours",
+      "overline": "Tour Packages",
+      "description": "Our core offering — curated international tour packages for nature, culture, and adventure.",
+      "emptyTitle": "No tour packages yet",
+      "emptyDescription": "New tour packages will appear here soon.",
+      "countOne": "1 tour package",
+      "countMany": "{count} tour packages"
+    },
+    "hunting": {
+      "navLabel": "Hunting",
+      "pageTitle": "Hunting Packages",
+      "overline": "Signature Experience",
+      "description": "Licensed hunting expeditions with professional outfitters, permits, and lodge stays.",
+      "emptyTitle": "No hunting packages yet",
+      "emptyDescription": "New hunting expeditions will appear here soon.",
+      "countOne": "1 hunting package",
+      "countMany": "{count} hunting packages"
+    },
+    "survival": {
+      "navLabel": "Survival Challenge",
+      "pageTitle": "Survival Challenge",
+      "overline": "Signature Experience",
+      "description": "Professional wilderness survival programs — bushcraft, navigation, and emergency protocols.",
+      "emptyTitle": "No survival programs yet",
+      "emptyDescription": "New survival challenges will appear here soon.",
+      "countOne": "1 survival package",
+      "countMany": "{count} survival packages"
+    }
+  },
+  "about": {
+    "title": "About",
+    "heroDescription": "An international tour agency — with hunting and survival challenges as our signature edge.",
+    "p1": "{siteName} is primarily a tour package agency. We design and book international journeys — nature expeditions, cultural trips, and adventure travel worldwide.",
+    "p2": "What sets us apart are two signature experiences: licensed hunting expeditions and professional survival challenges. They are the twist on top of a full-service tour operation.",
+    "p3": "Every booking is processed online with secure deposit payment and automatic PDF receipt generation."
+  },
+  "package": {
+    "backTo": "← Back to {category}",
+    "overview": "Overview",
+    "highlights": "Highlights",
+    "included": "Included",
+    "notIncluded": "Not Included",
+    "species": "Species",
+    "level": "Level",
+    "perPerson": "/ person",
+    "moreFrom": "More {category}",
+    "learnMore": "Learn more ›"
+  },
+  "booking": {
+    "title": "Book This Expedition",
+    "depositToday": "Deposit today: {deposit} ({percent}% of {total})",
+    "fullName": "Full Name *",
+    "email": "Email *",
+    "phone": "Phone",
+    "country": "Country",
+    "guests": "Guests *",
+    "startDate": "Preferred Start Date *",
+    "specialRequests": "Special Requests",
+    "namePlaceholder": "John Smith",
+    "emailPlaceholder": "john@email.com",
+    "phonePlaceholder": "+1 555 000 0000",
+    "countryPlaceholder": "United States",
+    "requestsPlaceholder": "Dietary needs, experience level, equipment requests...",
+    "creating": "Creating booking...",
+    "continue": "Continue to Payment — {amount}",
+    "failed": "Booking failed",
+    "error": "Something went wrong"
+  },
+  "payment": {
+    "step": "Step 2 of 2",
+    "title": "Complete Your Payment",
+    "bookingRef": "Booking reference",
+    "livePaypal": "✓ Live PayPal — real payments",
+    "cancelled": "Payment cancelled. You can try again below.",
+    "failedTitle": "Payment failed",
+    "failedDesc": "Please try again or use a different payment method.",
+    "summary": "Booking Summary",
+    "package": "Package",
+    "guest": "Guest",
+    "startDate": "Start Date",
+    "depositDue": "Deposit Due Now",
+    "chooseMethod": "Choose Payment Method",
+    "paypalLive": "✓ Live PayPal — real payments",
+    "paypalDesc": "Pay with PayPal or bank card. Funds go to the merchant business account.",
+    "payPaypal": "Pay with PayPal — {amount}",
+    "payCard": "Pay with Debit or Credit Card — {amount}",
+    "redirectNote": "You will be redirected to paypal.com to complete payment securely.",
+    "notConfigured": "PayPal not configured for {mode} mode"
+  },
+  "footer": {
+    "tagline": "International tour packages — with licensed hunting and survival challenges as our signature experiences.",
+    "explore": "Explore",
+    "contact": "Contact",
+    "checkout": "Secure PayPal checkout · Instant PDF receipts",
+    "copyright": "Copyright © {year} {siteName}. All rights reserved."
+  },
+  "common": {
+    "about": "About"
+  },
+  "confirmation": {
+    "pendingTitle": "Payment Pending",
+    "pendingDesc": "Your booking is awaiting payment.",
+    "continuePayment": "Continue to Payment",
+    "confirmedTitle": "Booking Confirmed!",
+    "confirmedDesc": "Thank you, {name}. Your deposit has been received and your expedition is reserved.",
+    "bookingRef": "Booking Reference",
+    "receiptNumber": "Receipt Number",
+    "package": "Package",
+    "startDate": "Start Date",
+    "depositPaid": "Deposit Paid",
+    "transactionId": "Transaction ID",
+    "downloadReceipt": "Download PDF Receipt",
+    "backHome": "Back to Home",
+    "emailNote": "A confirmation has been recorded for {email}. Remaining balance due before departure per booking terms."
+  }
+}

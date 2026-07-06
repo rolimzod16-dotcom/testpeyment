@@ -1,17 +1,16 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { CATEGORIES } from "@/lib/categories";
+import { Link } from "@/i18n/navigation";
+import { CATEGORY_META } from "@/lib/categories";
 import { SITE_NAME } from "@/lib/site-brand";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
-const nav = [
-  CATEGORIES.tours,
-  CATEGORIES.hunting,
-  CATEGORIES.survival,
-].map((c) => ({ href: c.path, label: c.navLabel }));
+const navKeys = ["tours", "hunting", "survival"] as const;
 
 export function Header() {
+  const t = useTranslations("nav");
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -30,45 +29,54 @@ export function Header() {
           : "bg-black/20 backdrop-blur-md"
       }`}
     >
-      <div className="mx-auto flex h-12 max-w-[980px] items-center justify-between px-6 md:h-[44px] md:px-8">
+      <div className="mx-auto flex h-12 max-w-[980px] items-center justify-between gap-3 px-6 md:h-[44px] md:px-8">
         <Link
           href="/"
-          className={`text-sm font-semibold tracking-tight transition ${
+          className={`shrink-0 text-sm font-semibold tracking-tight transition ${
             scrolled ? "text-foreground" : "text-white"
           }`}
         >
           {SITE_NAME}
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
-          {nav.map((item) => (
+        <nav className="hidden items-center gap-6 md:flex">
+          {navKeys.map((key) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={key}
+              href={CATEGORY_META[key].path}
               className={`text-xs transition hover:opacity-80 ${
                 scrolled ? "text-foreground/80" : "text-white/90"
               }`}
             >
-              {item.label}
+              {t(key)}
             </Link>
           ))}
+          <Link
+            href="/about"
+            className={`text-xs transition hover:opacity-80 ${
+              scrolled ? "text-foreground/80" : "text-white/90"
+            }`}
+          >
+            {t("about")}
+          </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher scrolled={scrolled} />
           <Link
             href="/tours"
-            className={`hidden rounded-full px-3.5 py-1 text-xs font-medium transition md:inline-flex ${
+            className={`hidden rounded-full px-3.5 py-1 text-xs font-medium transition sm:inline-flex ${
               scrolled
                 ? "bg-foreground text-white hover:bg-foreground/90"
                 : "bg-white/15 text-white backdrop-blur hover:bg-white/25"
             }`}
           >
-            Book a tour
+            {t("bookTour")}
           </Link>
           <button
             type="button"
             className={`text-xl md:hidden ${scrolled ? "text-foreground" : "text-white"}`}
-            aria-label="Open menu"
+            aria-label={t("openMenu")}
             onClick={() => setMenuOpen((open) => !open)}
           >
             {menuOpen ? "×" : "☰"}
@@ -78,22 +86,29 @@ export function Header() {
 
       {menuOpen && (
         <nav className="border-t border-black/[0.08] bg-white/95 px-6 py-4 backdrop-blur-xl md:hidden">
-          {nav.map((item) => (
+          {navKeys.map((key) => (
             <Link
-              key={item.href}
-              href={item.href}
+              key={key}
+              href={CATEGORY_META[key].path}
               className="block border-b border-black/[0.06] py-3 text-sm text-foreground/80"
               onClick={() => setMenuOpen(false)}
             >
-              {item.label}
+              {t(key)}
             </Link>
           ))}
+          <Link
+            href="/about"
+            className="block border-b border-black/[0.06] py-3 text-sm text-foreground/80"
+            onClick={() => setMenuOpen(false)}
+          >
+            {t("about")}
+          </Link>
           <Link
             href="/tours"
             className="mt-4 block rounded-full bg-foreground py-2.5 text-center text-sm font-medium text-white"
             onClick={() => setMenuOpen(false)}
           >
-            Book a tour
+            {t("bookTour")}
           </Link>
         </nav>
       )}

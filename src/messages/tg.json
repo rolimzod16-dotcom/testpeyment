@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "title": "Бастаи байналмилалӣ",
+    "description": "Бастаи байналмилалӣ бо шикор ва survival-челленҷ. Бронкунии онлайн ва пардохти бехатар."
+  },
+  "nav": {
+    "tours": "Турҳо",
+    "hunting": "Шикор",
+    "survival": "Survival Challenge",
+    "about": "Дар бораи мо",
+    "bookTour": "Тур брон кунед",
+    "openMenu": "Менюро кушоед"
+  },
+  "home": {
+    "toursEyebrow": "Бастаи турӣ",
+    "toursTitle": "Ҷаҳонро кашф кунед.",
+    "toursDescription": "Саёҳатҳои байналмилалии интихобшуда. Онлайн брон кунед — бо эътимод сафар кунед.",
+    "toursCta": "Турҳоро бинед",
+    "signatureEyebrow": "Хусусият",
+    "huntingTitle": "Шикор",
+    "huntingCta": "Шикорро бинед",
+    "survivalTitle": "Survival Challenge",
+    "survivalCta": "Челленҷро қабул кунед",
+    "agencyTitle": "Агентии турӣ бо хусусият.",
+    "agencyDescription": "{siteName} — бастаи байналмилалӣ плюс шикори иҷозатдор ва survival-челленҷ барои касе, ки бештар аз тури оддӣ мехоҳад.",
+    "featuredLabel": "Бастаи турӣ",
+    "featuredTitle": "Турҳои интихобшуда",
+    "viewAllTours": "Ҳамаи турҳо ›",
+    "stepsTitle": "Брон дар 4 қадам.",
+    "step1Title": "Бастаро интихоб кунед",
+    "step1Desc": "Турҳо, шикор ё survival.",
+    "step2Title": "Маълумот ворид кунед",
+    "step2Desc": "Санаҳо, меҳмонон, тамос.",
+    "step3Title": "Депозит пардохт кунед",
+    "step3Desc": "Пардохти бехатар тавассути PayPal.",
+    "step4Title": "Тасдиқ гиред",
+    "step4Desc": "Тасдиқи фаврӣ ва чеки PDF."
+  },
+  "categories": {
+    "tours": {
+      "navLabel": "Турҳо",
+      "pageTitle": "Турҳои байналмилалӣ",
+      "overline": "Бастаи турӣ",
+      "description": "Иҷрои асосии мо — бастаи байналмилалии турӣ: табиат, фарҳанг ва саргардонӣ.",
+      "emptyTitle": "Бастаи турӣ ҳоло нест",
+      "emptyDescription": "Турҳои нав ба зудӣ пайдо мешаванд.",
+      "countOne": "1 бастаи турӣ",
+      "countMany": "{count} бастаи турӣ"
+    },
+    "hunting": {
+      "navLabel": "Шикор",
+      "pageTitle": "Бастаи шикор",
+      "overline": "Хусусият",
+      "description": "Шикори иҷозатдор бо аутфиттерҳои касбӣ, иҷозатномаҳо ва истиқоматгоҳ.",
+      "emptyTitle": "Бастаи шикор ҳоло нест",
+      "emptyDescription": "Шикори нав ба зудӣ пайдо мешаванд.",
+      "countOne": "1 бастаи шикор",
+      "countMany": "{count} бастаи шикор"
+    },
+    "survival": {
+      "navLabel": "Survival Challenge",
+      "pageTitle": "Survival Challenge",
+      "overline": "Хусусият",
+      "description": "Барномаҳои касбии зиндагӣ дар табиат — бушкрафт, навигация ва протоколҳои фавқулодда.",
+      "emptyTitle": "Барномаи survival ҳоло нест",
+      "emptyDescription": "Челленҷҳои нав ба зудӣ пайдо мешаванд.",
+      "countOne": "1 бастаи survival",
+      "countMany": "{count} бастаи survival"
+    }
+  },
+  "about": {
+    "title": "Дар бораи мо",
+    "heroDescription": "Агентии байналмилалии турӣ — бо шикор ва survival-челленҷ ҳамчун хусусияти мо.",
+    "p1": "{siteName} — дар аввал агентии бастаи турӣ аст. Мо саёҳатҳои байналмилалиро ташкил мекунем: табиат, фарҳанг ва саргардонӣ дар саросари ҷаҳон.",
+    "p2": "Хусусияти мо — ду барномаи signature: шикори иҷозатдор ва survival-челленҷҳои касбӣ. Ин хусусият дар болои хидмати пурраи турӣ аст.",
+    "p3": "Ҳар бронкунӣ онлайн коркард мешавад бо пардохти бехатари депозит ва чеки PDF-и худкор."
+  },
+  "package": {
+    "backTo": "← Бозгашт ба {category}",
+    "overview": "Шарҳ",
+    "highlights": "Хусусиятҳо",
+    "included": "Дар баробар",
+    "notIncluded": "Дар баробар нест",
+    "species": "Навъ",
+    "level": "Сатҳ",
+    "perPerson": "/ нафар",
+    "moreFrom": "Боз дар {category}",
+    "learnMore": "Муфассал ›"
+  },
+  "booking": {
+    "title": "Ин экспедитсияро брон кунед",
+    "depositToday": "Депозит имрӯз: {deposit} ({percent}% аз {total})",
+    "fullName": "Номи пурра *",
+    "email": "Email *",
+    "phone": "Телефон",
+    "country": "Кишвар",
+    "guests": "Меҳмонон *",
+    "startDate": "Санаи оғози дилхоҳ *",
+    "specialRequests": "Дархостҳои махсус",
+    "namePlaceholder": "Али Алиев",
+    "emailPlaceholder": "ali@email.com",
+    "phonePlaceholder": "+992 000 000 000",
+    "countryPlaceholder": "Тоҷикистон",
+    "requestsPlaceholder": "Ғизо, сатҳи таҷриба, таҷҳизот...",
+    "creating": "Брон эҷод мешавад...",
+    "continue": "Ба пардохт гузаред — {amount}",
+    "failed": "Хатои бронкунӣ",
+    "error": "Чизе хато шуд"
+  },
+  "payment": {
+    "step": "Қадами 2 аз 2",
+    "title": "Пардохтро анҷом диҳед",
+    "bookingRef": "Рақами брон",
+    "livePaypal": "✓ Live PayPal — пардохти ҳақиқӣ",
+    "cancelled": "Пардохт бекор шуд. Дар зер боз кӯшиш кунед.",
+    "failedTitle": "Пардохт ноком шуд",
+    "failedDesc": "Боз кӯшиш кунед ё усули дигари пардохтро интихоб кунед.",
+    "summary": "Хулосаи брон",
+    "package": "Баста",
+    "guest": "Меҳмон",
+    "startDate": "Санаи оғоз",
+    "depositDue": "Депозит барои пардохт",
+    "chooseMethod": "Усули пардохтро интихоб кунед",
+    "paypalLive": "✓ Live PayPal — пардохти ҳақиқӣ",
+    "paypalDesc": "Тавассути PayPal ё корти бонкӣ. Маблағ ба ҳисоби тиҷорӣ меравад.",
+    "payPaypal": "Тавассути PayPal — {amount}",
+    "payCard": "Бо корти бонкӣ — {amount}",
+    "redirectNote": "Барои пардохти бехатар ба paypal.com мегузаред.",
+    "notConfigured": "PayPal барои ҳолати {mode} танзим нашудааст"
+  },
+  "footer": {
+    "tagline": "Бастаи байналмилалӣ — бо шикори иҷозатдор ва survival-челленҷ ҳамчун хусусияти мо.",
+    "explore": "Қисмҳо",
+    "contact": "Тамос",
+    "checkout": "Пардохти бехатари PayPal · Чеки фаврии PDF",
+    "copyright": "© {year} {siteName}. Ҳамаи ҳуқуқҳо ҳифз шудаанд."
+  },
+  "common": {
+    "about": "Дар бораи мо"
+  },
+  "confirmation": {
+    "pendingTitle": "Пардохт интизор аст",
+    "pendingDesc": "Бронкунии шумо интизори пардохт аст.",
+    "continuePayment": "Ба пардохт гузаред",
+    "confirmedTitle": "Бронкунӣ тасдиқ шуд!",
+    "confirmedDesc": "Ташаккур, {name}. Депозит гирифта шуд, экспедитсия брон шуд.",
+    "bookingRef": "Рақами брон",
+    "receiptNumber": "Рақами чек",
+    "package": "Баста",
+    "startDate": "Санаи оғоз",
+    "depositPaid": "Депозити пардохтшуда",
+    "transactionId": "ID транзаксия",
+    "downloadReceipt": "Чеки PDF-ро боргирӣ кунед",
+    "backHome": "Ба асосӣ",
+    "emailNote": "Тасдиқ барои {email} сабт шуд. Боқимонда пеш аз сафар мувофиқи шартҳои брон пардохт мешавад."
+  }
+}

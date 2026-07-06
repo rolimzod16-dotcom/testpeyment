@@ -1,3 +1,4 @@
+import { buildLocalizedUrl } from "@/lib/locale-path";
 import { getSiteUrl } from "@/lib/site-url";
 import { getPayPalApiUrl, isPayPalLive } from "@/lib/paypal-config";
 
@@ -52,6 +53,7 @@ export async function createPayPalOrder(params: {
   bookingId: string;
   description: string;
   paymentType?: PayPalPaymentType;
+  locale?: string;
 }) {
   const token = await getAccessToken();
   const siteUrl = getSiteUrl();
@@ -91,7 +93,11 @@ export async function createPayPalOrder(params: {
         payee_preferred: "UNRESTRICTED",
       },
       return_url: `${siteUrl}/api/payments/paypal/return?bookingId=${params.bookingId}`,
-      cancel_url: `${siteUrl}/payment/${params.bookingId}?cancelled=1`,
+      cancel_url: buildLocalizedUrl(
+        siteUrl,
+        params.locale || "en",
+        `/payment/${params.bookingId}?cancelled=1`
+      ),
     };
   }
 

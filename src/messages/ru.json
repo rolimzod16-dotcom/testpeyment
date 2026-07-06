@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "title": "Международные турпакеты",
+    "description": "Международные турпакеты с охотой и survival-челленджами. Онлайн-бронирование и безопасная оплата."
+  },
+  "nav": {
+    "tours": "Туры",
+    "hunting": "Охота",
+    "survival": "Survival Challenge",
+    "about": "О нас",
+    "bookTour": "Забронировать тур",
+    "openMenu": "Открыть меню"
+  },
+  "home": {
+    "toursEyebrow": "Турпакеты",
+    "toursTitle": "Исследуйте мир.",
+    "toursDescription": "Подобранные международные путешествия. Бронируйте онлайн — путешествуйте уверенно.",
+    "toursCta": "Смотреть туры",
+    "signatureEyebrow": "Изюминка",
+    "huntingTitle": "Охота",
+    "huntingCta": "Смотреть охоту",
+    "survivalTitle": "Survival Challenge",
+    "survivalCta": "Принять вызов",
+    "agencyTitle": "Тур-агентство с изюминкой.",
+    "agencyDescription": "{siteName} — это международные турпакеты плюс лицензированная охота и survival-челленджи для тех, кому нужно больше обычного тура.",
+    "featuredLabel": "Турпакеты",
+    "featuredTitle": "Избранные туры",
+    "viewAllTours": "Все туры ›",
+    "stepsTitle": "Бронирование в 4 шага.",
+    "step1Title": "Выберите пакет",
+    "step1Desc": "Туры, охота или survival.",
+    "step2Title": "Заполните данные",
+    "step2Desc": "Даты, гости, контакты.",
+    "step3Title": "Оплатите депозит",
+    "step3Desc": "Безопасная оплата через PayPal.",
+    "step4Title": "Получите подтверждение",
+    "step4Desc": "Мгновенное подтверждение и PDF-чек."
+  },
+  "categories": {
+    "tours": {
+      "navLabel": "Туры",
+      "pageTitle": "Международные туры",
+      "overline": "Турпакеты",
+      "description": "Наше основное направление — подобранные международные турпакеты: природа, культура и приключения.",
+      "emptyTitle": "Турпакетов пока нет",
+      "emptyDescription": "Скоро здесь появятся новые туры.",
+      "countOne": "1 турпакет",
+      "countMany": "{count} турпакетов"
+    },
+    "hunting": {
+      "navLabel": "Охота",
+      "pageTitle": "Охотничьи пакеты",
+      "overline": "Изюминка",
+      "description": "Лицензированная охота с профессиональными аутфиттерами, разрешениями и проживанием в лоджах.",
+      "emptyTitle": "Охотничьих пакетов пока нет",
+      "emptyDescription": "Скоро здесь появятся новые охотничьи туры.",
+      "countOne": "1 охотничий пакет",
+      "countMany": "{count} охотничьих пакетов"
+    },
+    "survival": {
+      "navLabel": "Survival Challenge",
+      "pageTitle": "Survival Challenge",
+      "overline": "Изюминка",
+      "description": "Профессиональные программы выживания — бушкрафт, навигация и протоколы экстренных ситуаций.",
+      "emptyTitle": "Survival-программ пока нет",
+      "emptyDescription": "Скоро здесь появятся новые челленджи.",
+      "countOne": "1 survival-пакет",
+      "countMany": "{count} survival-пакетов"
+    }
+  },
+  "about": {
+    "title": "О нас",
+    "heroDescription": "Международное тур-агентство — с охотой и survival-челленджами как нашей изюминкой.",
+    "p1": "{siteName} — в первую очередь агентство турпакетов. Мы организуем международные путешествия: природа, культура и приключения по всему миру.",
+    "p2": "Наша особенность — две signature-программы: лицензированная охота и профессиональные survival-челленджи. Это изюминка поверх полноценного тур-сервиса.",
+    "p3": "Каждое бронирование обрабатывается онлайн с безопасной оплатой депозита и автоматическим PDF-чеком."
+  },
+  "package": {
+    "backTo": "← Назад к разделу {category}",
+    "overview": "Обзор",
+    "highlights": "Особенности",
+    "included": "Включено",
+    "notIncluded": "Не включено",
+    "species": "Вид",
+    "level": "Уровень",
+    "perPerson": "/ человек",
+    "moreFrom": "Ещё в разделе {category}",
+    "learnMore": "Подробнее ›"
+  },
+  "booking": {
+    "title": "Забронировать экспедицию",
+    "depositToday": "Депозит сегодня: {deposit} ({percent}% от {total})",
+    "fullName": "Полное имя *",
+    "email": "Email *",
+    "phone": "Телефон",
+    "country": "Страна",
+    "guests": "Гости *",
+    "startDate": "Желаемая дата начала *",
+    "specialRequests": "Особые пожелания",
+    "namePlaceholder": "Иван Иванов",
+    "emailPlaceholder": "ivan@email.com",
+    "phonePlaceholder": "+992 000 000 000",
+    "countryPlaceholder": "Таджикистан",
+    "requestsPlaceholder": "Питание, уровень подготовки, снаряжение...",
+    "creating": "Создаём бронирование...",
+    "continue": "Перейти к оплате — {amount}",
+    "failed": "Ошибка бронирования",
+    "error": "Что-то пошло не так"
+  },
+  "payment": {
+    "step": "Шаг 2 из 2",
+    "title": "Завершите оплату",
+    "bookingRef": "Номер бронирования",
+    "livePaypal": "✓ Live PayPal — реальные платежи",
+    "cancelled": "Оплата отменена. Попробуйте снова ниже.",
+    "failedTitle": "Оплата не прошла",
+    "failedDesc": "Попробуйте снова или выберите другой способ оплаты.",
+    "summary": "Детали бронирования",
+    "package": "Пакет",
+    "guest": "Гость",
+    "startDate": "Дата начала",
+    "depositDue": "Депозит к оплате",
+    "chooseMethod": "Выберите способ оплаты",
+    "paypalLive": "✓ Live PayPal — реальные платежи",
+    "paypalDesc": "Оплата через PayPal или банковскую карту. Средства поступают на бизнес-аккаунт.",
+    "payPaypal": "Оплатить через PayPal — {amount}",
+    "payCard": "Оплатить картой — {amount}",
+    "redirectNote": "Вы будете перенаправлены на paypal.com для безопасной оплаты.",
+    "notConfigured": "PayPal не настроен для режима {mode}"
+  },
+  "footer": {
+    "tagline": "Международные турпакеты — с лицензированной охотой и survival-челленджами как нашей изюминкой.",
+    "explore": "Разделы",
+    "contact": "Контакты",
+    "checkout": "Безопасная оплата PayPal · Мгновенные PDF-чеки",
+    "copyright": "© {year} {siteName}. Все права защищены."
+  },
+  "common": {
+    "about": "О нас"
+  },
+  "confirmation": {
+    "pendingTitle": "Ожидается оплата",
+    "pendingDesc": "Ваше бронирование ожидает оплаты.",
+    "continuePayment": "Перейти к оплате",
+    "confirmedTitle": "Бронирование подтверждено!",
+    "confirmedDesc": "Спасибо, {name}. Депозит получен, экспедиция забронирована.",
+    "bookingRef": "Номер бронирования",
+    "receiptNumber": "Номер чека",
+    "package": "Пакет",
+    "startDate": "Дата начала",
+    "depositPaid": "Оплаченный депозит",
+    "transactionId": "ID транзакции",
+    "downloadReceipt": "Скачать PDF-чек",
+    "backHome": "На главную",
+    "emailNote": "Подтверждение отправлено на {email}. Остаток оплачивается до выезда по условиям бронирования."
+  }
+}

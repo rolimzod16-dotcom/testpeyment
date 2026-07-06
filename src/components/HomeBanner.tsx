@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 type Props = {
   variant: "hero" | "tile";
@@ -37,9 +37,7 @@ export function HomeBanner({
         <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
 
         <div className="relative z-10 px-6 pb-14 pt-24 md:px-10 md:pb-20">
-          {eyebrow && (
-            <p className="text-sm font-medium text-[#2997ff]">{eyebrow}</p>
-          )}
+          {eyebrow && <p className="text-sm font-medium text-[#2997ff]">{eyebrow}</p>}
           <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
             {title}
           </h1>
