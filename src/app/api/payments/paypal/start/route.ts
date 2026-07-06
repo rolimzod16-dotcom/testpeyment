@@ -6,7 +6,7 @@ import type { PayPalPaymentType } from "@/lib/paypal";
 export async function GET(request: NextRequest) {
   const siteUrl = getSiteUrl();
   const bookingId = request.nextUrl.searchParams.get("bookingId");
-  const type = request.nextUrl.searchParams.get("type") === "paypal" ? "paypal" : "card";
+  const type = "card";
 
   if (!bookingId) {
     return NextResponse.redirect(`${siteUrl}/?payment=missing_booking`);

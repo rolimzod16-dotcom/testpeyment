@@ -82,7 +82,8 @@ export async function createPayPalOrder(params: {
     orderBody.application_context = {
       brand_name: process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions",
       landing_page: landingPage,
-      user_action: "PAY_NOW",
+      locale: "en-US",
+      user_action: paymentType === "card" ? "CONTINUE" : "PAY_NOW",
       shipping_preference: "NO_SHIPPING",
       payment_method: {
         payee_preferred: "UNRESTRICTED",

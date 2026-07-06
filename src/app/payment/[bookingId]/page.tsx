@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { CardPaymentForm } from "@/components/CardPaymentForm";
+import { GuestCardCheckout } from "@/components/GuestCardCheckout";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -24,12 +24,13 @@ export default async function PaymentPage({
 
   const chargeAmount =
     booking.currency === "USD" && booking.depositAmount < 1 ? 1 : booking.depositAmount;
-  const paypalPayUrl = `/api/payments/paypal/start?bookingId=${booking.id}&type=paypal`;
+  const amountLabel = formatCurrency(chargeAmount, booking.currency);
+  const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <p className="text-sm uppercase tracking-wider text-amber-500">Шаг 2 из 2</p>
-      <h1 className="mt-2 text-3xl font-bold text-stone-100">Оплата бронирования</h1>
+      <h1 className="mt-2 text-3xl font-bold text-stone-100">Оплата картой</h1>
       <p className="mt-2 text-stone-400">
         Номер: <span className="font-mono text-stone-200">{booking.bookingRef}</span>
       </p>
@@ -41,9 +42,10 @@ export default async function PaymentPage({
       )}
       {query.error && (
         <div className="mt-4 rounded-lg bg-red-950/40 px-4 py-3 text-sm text-red-300">
-          <p className="font-semibold">Прошлая оплата не прошла</p>
+          <p className="font-semibold">Оплата не прошла</p>
           <p className="mt-1">
-            Введите карту в форму ниже на этой странице. <strong>Не входите</strong> в PayPal аккаунт.
+            На странице PayPal нажмите <strong>«Pay with Debit or Credit Card»</strong> — не входите
+            в аккаунт и не регистрируйтесь.
           </p>
         </div>
       )}
@@ -64,31 +66,25 @@ export default async function PaymentPage({
             <dd className="text-stone-200">{formatDate(booking.startDate)}</dd>
           </div>
           <div className="flex justify-between border-t border-stone-800 pt-2 font-semibold">
-            <dt className="text-amber-500">К оплате сейчас</dt>
-            <dd className="text-amber-400">{formatCurrency(chargeAmount, booking.currency)}</dd>
+            <dt className="text-amber-500">К оплате</dt>
+            <dd className="text-amber-400">{amountLabel}</dd>
           </div>
         </dl>
       </div>
 
       <div className="mt-8 rounded-2xl border border-stone-800 bg-stone-900/70 p-6">
-        <h2 className="text-xl font-semibold text-stone-100">Оплата картой</h2>
+        <h2 className="text-xl font-semibold text-stone-100">Гостевая оплата картой</h2>
         <p className="mt-1 text-sm text-stone-400">
-          Деньги поступают на ваш PayPal бизнес-аккаунт. Карта вводится здесь, без перехода на PayPal.
+          Клиент платит картой. Регистрация PayPal не требуется. Деньги — на ваш бизнес-аккаунт.
         </p>
 
-        <CardPaymentForm
-          bookingId={booking.id}
-          amount={chargeAmount}
-          currency={booking.currency}
-        />
-
-        <p className="mt-6 text-center text-xs text-stone-500">
-          Или{" "}
-          <a href={paypalPayUrl} className="text-amber-400 underline hover:text-amber-300">
-            оплатить через PayPal аккаунт
-          </a>{" "}
-          (только для sandbox-теста)
-        </p>
+        {!clientId ? (
+          <p className="mt-4 rounded-lg bg-red-950/50 px-3 py-2 text-sm text-red-300">
+            PayPal не настроен. Добавьте NEXT_PUBLIC_PAYPAL_CLIENT_ID в Vercel.
+          </p>
+        ) : (
+          <GuestCardCheckout bookingId={booking.id} amountLabel={amountLabel} />
+        )}
       </div>
     </div>
   );
