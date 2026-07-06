@@ -1,9 +1,5 @@
 import { getSiteUrl } from "@/lib/site-url";
-
-const PAYPAL_API =
-  process.env.PAYPAL_MODE === "live"
-    ? "https://api-m.paypal.com"
-    : "https://api-m.sandbox.paypal.com";
+import { getPayPalApiUrl, isPayPalLive } from "@/lib/paypal-config";
 
 const MIN_PAYPAL_USD = 1;
 
@@ -16,7 +12,7 @@ async function getAccessToken() {
   }
 
   const auth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-  const response = await fetch(`${PAYPAL_API}/v1/oauth2/token`, {
+  const response = await fetch(`${getPayPalApiUrl()}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${auth}`,
@@ -60,7 +56,7 @@ export async function createPayPalOrder(params: {
   const token = await getAccessToken();
   const siteUrl = getSiteUrl();
   const value = normalizeAmount(params.depositAmount, params.currency);
-  const paymentType = params.paymentType ?? "inline-card";
+  const paymentType = params.paymentType ?? "paypal";
 
   const orderBody: Record<string, unknown> = {
     intent: "CAPTURE",
@@ -78,7 +74,13 @@ export async function createPayPalOrder(params: {
   };
 
   if (paymentType !== "inline-card") {
-    const landingPage = paymentType === "card" ? "BILLING" : "NO_PREFERENCE";
+    const landingPage =
+      paymentType === "card"
+        ? "BILLING"
+        : isPayPalLive()
+          ? "NO_PREFERENCE"
+          : "NO_PREFERENCE";
+
     orderBody.application_context = {
       brand_name: process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions",
       landing_page: landingPage,
@@ -93,11 +95,12 @@ export async function createPayPalOrder(params: {
     };
   }
 
-  const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
+  const response = await fetch(`${getPayPalApiUrl()}/v2/checkout/orders`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
+      "PayPal-Request-Id": `${params.bookingRef}-${Date.now()}`,
     },
     body: JSON.stringify(orderBody),
   });
@@ -121,7 +124,7 @@ export async function capturePayPalOrder(orderId: string) {
   const token = await getAccessToken();
 
   const response = await fetch(
-    `${PAYPAL_API}/v2/checkout/orders/${orderId}/capture`,
+    `${getPayPalApiUrl()}/v2/checkout/orders/${orderId}/capture`,
     {
       method: "POST",
       headers: {

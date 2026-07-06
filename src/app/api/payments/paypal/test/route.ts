@@ -1,27 +1,25 @@
 import { NextResponse } from "next/server";
+import { getPayPalApiUrl, validatePayPalEnv } from "@/lib/paypal-config";
+import { getSiteUrl } from "@/lib/site-url";
 
 export async function GET() {
-  const hasClientId = Boolean(process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
-  const hasSecret = Boolean(process.env.PAYPAL_CLIENT_SECRET);
-  const mode = process.env.PAYPAL_MODE || "sandbox";
+  const config = validatePayPalEnv();
+  const siteUrl = getSiteUrl();
 
-  if (!hasClientId || !hasSecret) {
+  if (!config.ok) {
     return NextResponse.json({
       ok: false,
-      error: "Missing PayPal env vars on server",
-      hasClientId,
-      hasSecret,
-      mode,
+      mode: config.mode,
+      siteUrl,
+      issues: config.issues,
     });
   }
 
-  const api =
-    mode === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
   const auth = Buffer.from(
     `${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`
   ).toString("base64");
 
-  const res = await fetch(`${api}/v1/oauth2/token`, {
+  const res = await fetch(`${getPayPalApiUrl()}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       Authorization: `Basic ${auth}`,
@@ -31,11 +29,19 @@ export async function GET() {
   });
 
   const text = await res.text();
+
   return NextResponse.json({
     ok: res.ok,
-    mode,
-    hasClientId,
-    hasSecret,
+    mode: config.mode,
+    live: config.mode === "live",
+    siteUrl,
+    returnUrlExample: `${siteUrl}/api/payments/paypal/return?bookingId=EXAMPLE`,
     paypal: res.ok ? "connected" : text,
+    checklist: {
+      envVarsSet: true,
+      apiConnected: res.ok,
+      siteUrlSet: Boolean(process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL),
+      readyForPayments: res.ok && Boolean(process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL),
+    },
   });
 }
