@@ -35,11 +35,10 @@ export default async function PaymentPage({
       )}
       {query.error && (
         <div className="mt-4 rounded-lg bg-red-950/40 px-4 py-3 text-sm text-red-300">
-          <p className="font-semibold">Payment was denied by PayPal Sandbox</p>
+          <p className="font-semibold">Оплата не прошла</p>
           <p className="mt-1">
-            This usually means the sandbox buyer has $0 balance or you logged in with a real PayPal
-            account. Try <strong>Pay with Debit or Credit Card</strong> (guest) instead, or fund your
-            sandbox buyer at developer.paypal.com → Sandbox Accounts.
+            Нажмите <strong>«Оплатить картой»</strong> и введите тестовую карту{" "}
+            <span className="font-mono">4032 0320 3446 3523</span>. Не входите в PayPal аккаунт.
           </p>
         </div>
       )}

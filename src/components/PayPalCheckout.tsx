@@ -10,23 +10,25 @@ type Props = {
   packageTitle: string;
 };
 
+type PaymentType = "card" | "paypal";
+
 export function PayPalCheckout({ bookingId, depositAmount, currency, packageTitle }: Props) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<PaymentType | null>(null);
   const [error, setError] = useState("");
 
   const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
   const chargeAmount = currency === "USD" && depositAmount < 1 ? 1 : depositAmount;
   const isSandbox = process.env.NEXT_PUBLIC_PAYPAL_MODE !== "live";
 
-  async function handlePay() {
-    setLoading(true);
+  async function handlePay(paymentType: PaymentType) {
+    setLoading(paymentType);
     setError("");
 
     try {
       const res = await fetch("/api/payments/paypal/redirect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ bookingId }),
+        body: JSON.stringify({ bookingId, paymentType }),
       });
       const data = await res.json();
 
@@ -37,7 +39,7 @@ export function PayPalCheckout({ bookingId, depositAmount, currency, packageTitl
       window.location.href = data.approveUrl;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Payment failed");
-      setLoading(false);
+      setLoading(null);
     }
   }
 
@@ -54,37 +56,29 @@ export function PayPalCheckout({ bookingId, depositAmount, currency, packageTitl
 
   return (
     <div className="rounded-2xl border border-stone-800 bg-stone-900/70 p-6">
-      <h2 className="text-xl font-semibold text-stone-100">Pay with PayPal</h2>
+      <h2 className="text-xl font-semibold text-stone-100">Оплата</h2>
       <p className="mt-1 text-sm text-stone-400">
         {packageTitle} — {formatCurrency(chargeAmount, currency)}
       </p>
+      <p className="mt-2 text-sm text-stone-500">
+        Деньги поступают на ваш PayPal бизнес-аккаунт (через PayPal).
+      </p>
 
       {isSandbox && (
-        <div className="mt-4 space-y-3 rounded-lg border border-amber-800/50 bg-amber-950/30 p-4 text-sm text-amber-200">
-          <p className="font-semibold">Sandbox test mode</p>
-          <p className="text-amber-200/80">
-            Do <strong>not</strong> use your real PayPal account. Pick one option:
+        <div className="mt-4 space-y-2 rounded-lg border border-emerald-800/50 bg-emerald-950/30 p-4 text-sm text-emerald-200">
+          <p className="font-semibold">Тест (Sandbox) — оплата картой</p>
+          <p>
+            Нажмите <strong>«Оплатить картой»</strong> → откроется форма карты PayPal.
+            <strong> Не входите</strong> в PayPal аккаунт.
           </p>
-          <ol className="list-decimal space-y-2 pl-5 text-amber-200/80">
+          <ul className="list-disc space-y-1 pl-5 text-emerald-200/90">
             <li>
-              <strong>Guest card (easiest):</strong> on the PayPal page click{" "}
-              <em>Pay with Debit or Credit Card</em>. Use test Visa{" "}
-              <span className="font-mono">4032 0320 3446 3523</span>, any future expiry, any CVV.
+              Карта: <span className="font-mono">4032 0320 3446 3523</span>
             </li>
-            <li>
-              <strong>Sandbox buyer:</strong>{" "}
-              <a
-                href="https://developer.paypal.com/dashboard/accounts"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-amber-100"
-              >
-                developer.paypal.com → Sandbox Accounts
-              </a>
-              . Open a <em>Personal</em> account → edit → set balance to <strong>$5000 USD</strong>.
-              Then log in with that sandbox email/password on the PayPal page.
-            </li>
-          </ol>
+            <li>Срок: любая будущая дата (например 12/2028)</li>
+            <li>CVV: любые 3 цифры (например 123)</li>
+            <li>Имя и адрес: любые (например John Doe, New York)</li>
+          </ul>
         </div>
       )}
 
@@ -94,11 +88,20 @@ export function PayPalCheckout({ bookingId, depositAmount, currency, packageTitl
 
       <button
         type="button"
-        onClick={handlePay}
-        disabled={loading}
-        className="mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-[#ffc439] py-4 text-lg font-bold text-[#003087] transition hover:bg-[#f5ba2e] disabled:opacity-60"
+        onClick={() => handlePay("card")}
+        disabled={loading !== null}
+        className="mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-stone-100 py-4 text-lg font-bold text-stone-900 transition hover:bg-white disabled:opacity-60"
       >
-        {loading ? "Redirecting to PayPal..." : "Pay with PayPal"}
+        {loading === "card" ? "Открываем форму карты..." : "Оплатить картой"}
+      </button>
+
+      <button
+        type="button"
+        onClick={() => handlePay("paypal")}
+        disabled={loading !== null}
+        className="mt-3 flex w-full items-center justify-center gap-3 rounded-full bg-[#ffc439] py-4 text-lg font-bold text-[#003087] transition hover:bg-[#f5ba2e] disabled:opacity-60"
+      >
+        {loading === "paypal" ? "Переход на PayPal..." : "Оплатить через PayPal"}
       </button>
     </div>
   );

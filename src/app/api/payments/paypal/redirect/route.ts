@@ -3,11 +3,14 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { createPayPalOrder } from "@/lib/paypal";
 
-const schema = z.object({ bookingId: z.string() });
+const schema = z.object({
+  bookingId: z.string(),
+  paymentType: z.enum(["card", "paypal"]).optional().default("card"),
+});
 
 export async function POST(request: Request) {
   try {
-    const { bookingId } = schema.parse(await request.json());
+    const { bookingId, paymentType } = schema.parse(await request.json());
 
     const booking = await prisma.booking.findUnique({
       where: { id: bookingId },
@@ -28,6 +31,7 @@ export async function POST(request: Request) {
       bookingRef: booking.bookingRef,
       bookingId: booking.id,
       description: `${booking.package.title} — Deposit`,
+      paymentType,
     });
 
     await prisma.booking.update({

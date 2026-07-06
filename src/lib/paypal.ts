@@ -47,16 +47,21 @@ type PayPalOrderResponse = {
   links?: Array<{ href: string; rel: string; method: string }>;
 };
 
+export type PayPalPaymentType = "card" | "paypal";
+
 export async function createPayPalOrder(params: {
   depositAmount: number;
   currency: string;
   bookingRef: string;
   bookingId: string;
   description: string;
+  paymentType?: PayPalPaymentType;
 }) {
   const token = await getAccessToken();
   const siteUrl = getSiteUrl();
   const value = normalizeAmount(params.depositAmount, params.currency);
+  const paymentType = params.paymentType ?? "card";
+  const landingPage = paymentType === "card" ? "BILLING" : "NO_PREFERENCE";
 
   const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
     method: "POST",
@@ -79,7 +84,7 @@ export async function createPayPalOrder(params: {
       ],
       application_context: {
         brand_name: process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions",
-        landing_page: "NO_PREFERENCE",
+        landing_page: landingPage,
         user_action: "PAY_NOW",
         shipping_preference: "NO_SHIPPING",
         payment_method: {
