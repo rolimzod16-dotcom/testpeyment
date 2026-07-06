@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CATEGORIES } from "@/lib/categories";
 import { SITE_NAME } from "@/lib/site-brand";
 
 const nav = [
-  { href: "/tours", label: "Tours" },
-  { href: "/hunting", label: "Hunting" },
-  { href: "/survival", label: "Survival" },
-  { href: "/about", label: "About" },
-];
+  CATEGORIES.tours,
+  CATEGORIES.hunting,
+  CATEGORIES.survival,
+].map((c) => ({ href: c.path, label: c.navLabel }));
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);

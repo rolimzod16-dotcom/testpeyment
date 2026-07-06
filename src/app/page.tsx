@@ -4,6 +4,8 @@ import { HomeBanner } from "@/components/HomeBanner";
 import { PackageCard } from "@/components/PackageCard";
 import { SITE_NAME } from "@/lib/site-brand";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const featured = await prisma.package.findMany({
     where: { active: true, category: "tours" },

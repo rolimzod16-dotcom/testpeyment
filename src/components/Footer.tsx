@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CATEGORIES } from "@/lib/categories";
 import { COMPANY_EMAIL, SITE_NAME } from "@/lib/site-brand";
 
 export function Footer() {
@@ -16,14 +17,14 @@ export function Footer() {
           <div>
             <p className="text-xs font-semibold text-foreground">Explore</p>
             <div className="mt-3 flex flex-col gap-2 text-xs">
-              <Link href="/tours" className="hover:text-link">
-                Tours
+              <Link href={CATEGORIES.tours.path} className="hover:text-link">
+                {CATEGORIES.tours.navLabel}
               </Link>
-              <Link href="/hunting" className="hover:text-link">
-                Hunting
+              <Link href={CATEGORIES.hunting.path} className="hover:text-link">
+                {CATEGORIES.hunting.navLabel}
               </Link>
-              <Link href="/survival" className="hover:text-link">
-                Survival Challenge
+              <Link href={CATEGORIES.survival.path} className="hover:text-link">
+                {CATEGORIES.survival.navLabel}
               </Link>
               <Link href="/about" className="hover:text-link">
                 About
