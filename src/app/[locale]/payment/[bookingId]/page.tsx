@@ -101,7 +101,12 @@ export default async function PaymentPage({ params, searchParams }: Props) {
               </ul>
             </div>
           ) : (
-            <PayPalPaymentOptions bookingId={booking.id} amountLabel={amountLabel} />
+            <PayPalPaymentOptions
+              bookingId={booking.id}
+              amount={chargeAmount}
+              currency={booking.currency}
+              amountLabel={amountLabel}
+            />
           )}
         </div>
 
