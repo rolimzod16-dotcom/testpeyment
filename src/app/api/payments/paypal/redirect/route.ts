@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
-import { createPayPalOrder } from "@/lib/paypal";
+import { startPayPalPayment } from "@/lib/start-paypal-payment";
 
 const schema = z.object({
   bookingId: z.string(),
@@ -11,38 +10,12 @@ const schema = z.object({
 export async function POST(request: Request) {
   try {
     const { bookingId, paymentType } = schema.parse(await request.json());
-
-    const booking = await prisma.booking.findUnique({
-      where: { id: bookingId },
-      include: { package: true },
-    });
-
-    if (!booking) {
-      return NextResponse.json({ error: "Booking not found" }, { status: 404 });
-    }
-
-    if (booking.status === "paid") {
-      return NextResponse.json({ error: "Already paid" }, { status: 400 });
-    }
-
-    const { orderId, approveUrl } = await createPayPalOrder({
-      depositAmount: booking.depositAmount,
-      currency: booking.currency,
-      bookingRef: booking.bookingRef,
-      bookingId: booking.id,
-      description: `${booking.package.title} — Deposit`,
-      paymentType,
-    });
-
-    await prisma.booking.update({
-      where: { id: bookingId },
-      data: { paypalOrderId: orderId },
-    });
-
+    const approveUrl = await startPayPalPayment(bookingId, paymentType);
     return NextResponse.json({ approveUrl });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "Failed to start PayPal payment";
-    return NextResponse.json({ error: message }, { status: 500 });
+    const status = message === "Booking not found" ? 404 : message === "Already paid" ? 400 : 500;
+    return NextResponse.json({ error: message }, { status });
   }
 }
