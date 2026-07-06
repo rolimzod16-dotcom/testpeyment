@@ -2,7 +2,14 @@ export type PayPalMode = "live" | "sandbox";
 
 export function getPayPalMode(): PayPalMode {
   const mode = process.env.PAYPAL_MODE?.trim().toLowerCase();
-  return mode === "live" ? "live" : "sandbox";
+  if (mode === "live") return "live";
+
+  const publicMode = process.env.NEXT_PUBLIC_PAYPAL_MODE?.trim().toLowerCase();
+  if (publicMode === "live") return "live";
+
+  if (process.env.VERCEL_ENV === "production") return "live";
+
+  return "sandbox";
 }
 
 export function isPayPalLive(): boolean {

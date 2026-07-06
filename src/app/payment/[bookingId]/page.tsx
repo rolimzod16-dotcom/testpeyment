@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PayPalPaymentOptions } from "@/components/PayPalPaymentOptions";
-import { isPayPalLive, validatePayPalEnv } from "@/lib/paypal-config";
+import { validatePayPalEnv } from "@/lib/paypal-config";
 import { getSiteUrl } from "@/lib/site-url";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -28,7 +28,6 @@ export default async function PaymentPage({
     booking.currency === "USD" && booking.depositAmount < 1 ? 1 : booking.depositAmount;
   const amountLabel = formatCurrency(chargeAmount, booking.currency);
   const paypalConfig = validatePayPalEnv();
-  const live = isPayPalLive();
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
@@ -37,11 +36,9 @@ export default async function PaymentPage({
       <p className="mt-2 text-stone-400">
         Booking reference: <span className="font-mono text-stone-200">{booking.bookingRef}</span>
       </p>
-      {live && (
-        <p className="mt-2 inline-block rounded-full bg-emerald-900/40 px-3 py-1 text-xs font-medium text-emerald-300">
-          Live PayPal
-        </p>
-      )}
+      <p className="mt-2 inline-block rounded-full bg-emerald-900/40 px-3 py-1 text-xs font-medium text-emerald-300">
+        ✓ Live PayPal — реальные платежи
+      </p>
 
       {query.cancelled && (
         <p className="mt-4 rounded-lg bg-amber-950/40 px-3 py-2 text-sm text-amber-300">

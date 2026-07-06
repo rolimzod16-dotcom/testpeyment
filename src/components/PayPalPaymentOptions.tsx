@@ -1,33 +1,20 @@
-import { isPayPalLive } from "@/lib/paypal-config";
-
 type Props = {
   bookingId: string;
   amountLabel: string;
 };
 
 export function PayPalPaymentOptions({ bookingId, amountLabel }: Props) {
-  const live = isPayPalLive();
   const paypalUrl = `/api/payments/paypal/start?bookingId=${bookingId}&type=paypal`;
   const cardUrl = `/api/payments/paypal/start?bookingId=${bookingId}&type=card`;
 
   return (
     <div className="mt-4 space-y-4">
-      {live ? (
-        <div className="rounded-lg border border-emerald-800/40 bg-emerald-950/20 p-4 text-sm text-emerald-200">
-          <p className="font-semibold">Secure live payment</p>
-          <p className="mt-1 text-emerald-200/90">
-            Pay with your PayPal account or debit/credit card. Funds go to the merchant PayPal
-            business account.
-          </p>
-        </div>
-      ) : (
-        <div className="rounded-lg border border-amber-700/40 bg-amber-950/20 p-4 text-sm text-amber-100">
-          <p className="font-semibold">Sandbox test mode</p>
-          <p className="mt-1 text-amber-100/90">
-            Use a Sandbox Personal buyer from developer.paypal.com, or guest card checkout.
-          </p>
-        </div>
-      )}
+      <div className="rounded-lg border border-emerald-800/40 bg-emerald-950/20 p-4 text-sm text-emerald-200">
+        <p className="font-semibold">✓ Live PayPal — реальные платежи</p>
+        <p className="mt-1 text-emerald-200/90">
+          Оплата через PayPal или банковскую карту. Средства поступают на бизнес-аккаунт.
+        </p>
+      </div>
 
       <a
         href={paypalUrl}
@@ -44,9 +31,7 @@ export function PayPalPaymentOptions({ bookingId, amountLabel }: Props) {
       </a>
 
       <p className="text-center text-xs text-stone-500">
-        {live
-          ? "You will be redirected to PayPal to complete payment securely."
-          : "Sandbox: do not use your real PayPal account on sandbox.paypal.com."}
+        Вы будете перенаправлены на paypal.com для безопасной оплаты.
       </p>
     </div>
   );
