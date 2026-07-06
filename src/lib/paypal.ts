@@ -29,6 +29,8 @@ async function getAccessToken() {
   return data.access_token;
 }
 
+const MIN_PAYPAL_USD = 1;
+
 export async function createPayPalOrder(params: {
   depositAmount: number;
   currency: string;
@@ -37,6 +39,11 @@ export async function createPayPalOrder(params: {
 }) {
   const token = await getAccessToken();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+  let amount = params.depositAmount;
+  if (params.currency === "USD" && amount < MIN_PAYPAL_USD) {
+    amount = MIN_PAYPAL_USD;
+  }
 
   const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
     method: "POST",
@@ -53,7 +60,7 @@ export async function createPayPalOrder(params: {
           custom_id: params.bookingRef,
           amount: {
             currency_code: params.currency,
-            value: params.depositAmount.toFixed(2),
+            value: amount.toFixed(2),
           },
         },
       ],
