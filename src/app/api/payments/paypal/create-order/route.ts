@@ -22,12 +22,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Already paid" }, { status: 400 });
     }
 
-    const { orderId, approveUrl } = await createPayPalOrder({
+    const { orderId } = await createPayPalOrder({
       depositAmount: booking.depositAmount,
       currency: booking.currency,
       bookingRef: booking.bookingRef,
       bookingId: booking.id,
       description: `${booking.package.title} — Deposit`,
+      paymentType: "inline-card",
     });
 
     await prisma.booking.update({
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
       data: { paypalOrderId: orderId },
     });
 
-    return NextResponse.json({ orderId, approveUrl });
+    return NextResponse.json({ orderId });
   } catch (error) {
     console.error(error);
     const message = error instanceof Error ? error.message : "Failed to create PayPal order";

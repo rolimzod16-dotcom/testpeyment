@@ -47,7 +47,7 @@ type PayPalOrderResponse = {
   links?: Array<{ href: string; rel: string; method: string }>;
 };
 
-export type PayPalPaymentType = "card" | "paypal";
+export type PayPalPaymentType = "card" | "paypal" | "inline-card";
 
 export async function createPayPalOrder(params: {
   depositAmount: number;
@@ -60,8 +60,37 @@ export async function createPayPalOrder(params: {
   const token = await getAccessToken();
   const siteUrl = getSiteUrl();
   const value = normalizeAmount(params.depositAmount, params.currency);
-  const paymentType = params.paymentType ?? "card";
-  const landingPage = paymentType === "card" ? "BILLING" : "NO_PREFERENCE";
+  const paymentType = params.paymentType ?? "inline-card";
+
+  const orderBody: Record<string, unknown> = {
+    intent: "CAPTURE",
+    purchase_units: [
+      {
+        reference_id: params.bookingRef,
+        description: params.description,
+        custom_id: params.bookingRef,
+        amount: {
+          currency_code: params.currency,
+          value,
+        },
+      },
+    ],
+  };
+
+  if (paymentType !== "inline-card") {
+    const landingPage = paymentType === "card" ? "BILLING" : "NO_PREFERENCE";
+    orderBody.application_context = {
+      brand_name: process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions",
+      landing_page: landingPage,
+      user_action: "PAY_NOW",
+      shipping_preference: "NO_SHIPPING",
+      payment_method: {
+        payee_preferred: "UNRESTRICTED",
+      },
+      return_url: `${siteUrl}/api/payments/paypal/return?bookingId=${params.bookingId}`,
+      cancel_url: `${siteUrl}/payment/${params.bookingId}?cancelled=1`,
+    };
+  }
 
   const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
     method: "POST",
@@ -69,31 +98,7 @@ export async function createPayPalOrder(params: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      intent: "CAPTURE",
-      purchase_units: [
-        {
-          reference_id: params.bookingRef,
-          description: params.description,
-          custom_id: params.bookingRef,
-          amount: {
-            currency_code: params.currency,
-            value,
-          },
-        },
-      ],
-      application_context: {
-        brand_name: process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions",
-        landing_page: landingPage,
-        user_action: "PAY_NOW",
-        shipping_preference: "NO_SHIPPING",
-        payment_method: {
-          payee_preferred: "UNRESTRICTED",
-        },
-        return_url: `${siteUrl}/api/payments/paypal/return?bookingId=${params.bookingId}`,
-        cancel_url: `${siteUrl}/payment/${params.bookingId}?cancelled=1`,
-      },
-    }),
+    body: JSON.stringify(orderBody),
   });
 
   if (!response.ok) {

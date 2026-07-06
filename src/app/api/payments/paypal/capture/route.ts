@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       where: { id: bookingId },
       data: {
         status: "paid",
-        paymentMethod: "paypal",
+        paymentMethod: "card",
         paymentId,
         paypalOrderId: orderId,
         paidAt: new Date(),
