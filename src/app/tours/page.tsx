@@ -13,13 +13,13 @@ export default async function ToursPage() {
   return (
     <div>
       <PageHero
-        overline="International Travel"
-        title="Guided Tours"
-        description="Guided nature expeditions, cultural journeys, and adventure travel worldwide."
+        overline="Tour Packages"
+        title="International Tours"
+        description="Our core offering — curated tour packages for nature, culture, and adventure worldwide."
         image="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80"
       />
-      <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
-        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto max-w-[980px] bg-background px-6 py-16 md:px-8">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg) => (
             <PackageCard key={pkg.id} pkg={pkg} />
           ))}

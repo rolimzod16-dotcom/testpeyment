@@ -2,60 +2,82 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  overline: string;
+  variant: "hero" | "tile";
+  eyebrow?: string;
   title: string;
-  description: string;
+  description?: string;
   href: string;
   cta: string;
   image: string;
-  accent?: "gold" | "emerald";
 };
 
 export function HomeBanner({
-  overline,
+  variant,
+  eyebrow,
   title,
   description,
   href,
   cta,
   image,
-  accent = "gold",
 }: Props) {
-  const accentBorder = accent === "gold" ? "border-[hsl(35,65%,45%)]" : "border-emerald-500/60";
+  if (variant === "hero") {
+    return (
+      <Link
+        href={href}
+        className="group relative flex min-h-[52vh] flex-col items-center justify-end overflow-hidden bg-black text-center lg:min-h-screen"
+      >
+        <Image
+          src={image}
+          alt={title}
+          fill
+          priority
+          className="object-cover opacity-90 transition duration-700 group-hover:scale-[1.02]"
+          sizes="(max-width: 1024px) 100vw, 58vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10" />
+
+        <div className="relative z-10 px-6 pb-14 pt-24 md:px-10 md:pb-20">
+          {eyebrow && (
+            <p className="text-sm font-medium text-[#2997ff]">{eyebrow}</p>
+          )}
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl">
+            {title}
+          </h1>
+          {description && (
+            <p className="mx-auto mt-4 max-w-lg text-lg font-normal text-white/75 md:text-xl">
+              {description}
+            </p>
+          )}
+          <p className="mt-6 text-lg font-medium text-[#2997ff] transition group-hover:text-[#0077ed]">
+            {cta} <span aria-hidden>›</span>
+          </p>
+        </div>
+      </Link>
+    );
+  }
 
   return (
     <Link
       href={href}
-      className="group relative flex min-h-[50vh] flex-1 flex-col justify-end overflow-hidden md:min-h-screen"
+      className="group relative flex min-h-[28vh] flex-col items-center justify-end overflow-hidden bg-black text-center lg:min-h-0 lg:flex-1"
     >
       <Image
         src={image}
         alt={title}
         fill
-        priority
-        className="object-cover transition duration-700 group-hover:scale-105"
-        sizes="(max-width: 768px) 100vw, 50vw"
+        className="object-cover opacity-85 transition duration-700 group-hover:scale-[1.03]"
+        sizes="(max-width: 1024px) 100vw, 42vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[hsl(218,60%,8%)] via-[hsl(218,60%,8%)]/55 to-[hsl(218,60%,8%)]/20" />
-      <div className="absolute inset-0 bg-black/20 transition group-hover:bg-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
 
-      <div className="relative z-10 p-8 pb-12 md:p-12 md:pb-16 lg:p-14">
-        <p className="text-[0.65rem] font-medium uppercase tracking-[0.28em] text-[hsl(35,65%,60%)] md:text-xs">
-          {overline}
+      <div className="relative z-10 px-5 pb-8 pt-16 md:px-6 md:pb-10">
+        {eyebrow && (
+          <p className="text-xs font-semibold uppercase tracking-widest text-white/55">{eyebrow}</p>
+        )}
+        <h2 className="mt-1 text-2xl font-semibold tracking-tight text-white md:text-3xl">{title}</h2>
+        <p className="mt-3 text-sm font-medium text-[#2997ff] transition group-hover:text-[#0077ed] md:text-base">
+          {cta} <span aria-hidden>›</span>
         </p>
-        <h2 className="font-serif mt-4 max-w-md text-4xl font-light leading-[0.95] tracking-tight text-white md:text-5xl lg:text-6xl">
-          {title}
-        </h2>
-        <p className="mt-4 max-w-sm text-sm font-light leading-relaxed tracking-wide text-white/65 md:text-base">
-          {description}
-        </p>
-        <span
-          className={`mt-8 inline-flex items-center gap-2 border-b pb-1 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[hsl(35,65%,60%)] transition group-hover:text-white ${accentBorder}`}
-        >
-          {cta}
-          <span aria-hidden className="transition group-hover:translate-x-1">
-            →
-          </span>
-        </span>
       </div>
     </Link>
   );

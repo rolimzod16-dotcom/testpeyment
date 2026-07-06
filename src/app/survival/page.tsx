@@ -13,13 +13,13 @@ export default async function SurvivalPage() {
   return (
     <div>
       <PageHero
-        overline="Professional Training"
+        overline="Signature Experience"
         title="Survival Challenge"
-        description="Professional wilderness skills courses — bushcraft, navigation, emergency protocols. Structured programs in real terrain."
+        description="Our specialty — structured wilderness survival programs in real terrain."
         image="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=1600&q=80"
       />
-      <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
-        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto max-w-[980px] bg-background px-6 py-16 md:px-8">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg) => (
             <PackageCard key={pkg.id} pkg={pkg} />
           ))}

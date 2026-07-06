@@ -9,19 +9,13 @@ type Props = {
 
 export function PageHero({ overline, title, description, image }: Props) {
   return (
-    <section className="relative flex min-h-[42vh] items-end overflow-hidden bg-[hsl(218,60%,8%)]">
-      <Image src={image} alt={title} fill priority className="object-cover opacity-50" sizes="100vw" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[hsl(218,60%,8%)] via-[hsl(218,60%,8%)]/80 to-transparent" />
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 md:px-10 md:py-20">
-        <p className="text-[0.65rem] font-medium uppercase tracking-[0.28em] text-[hsl(35,65%,60%)] md:text-xs">
-          {overline}
-        </p>
-        <h1 className="font-serif mt-4 max-w-3xl text-4xl font-light leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-          {title}
-        </h1>
-        <p className="mt-4 max-w-2xl text-base font-light leading-relaxed text-white/65 md:text-lg">
-          {description}
-        </p>
+    <section className="relative flex min-h-[40vh] items-end overflow-hidden bg-black">
+      <Image src={image} alt={title} fill priority className="object-cover opacity-80" sizes="100vw" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+      <div className="relative z-10 mx-auto w-full max-w-[980px] px-6 py-16 text-center md:px-8 md:py-20">
+        <p className="text-sm font-medium text-[#2997ff]">{overline}</p>
+        <h1 className="mt-2 text-4xl font-semibold tracking-tight text-white md:text-5xl">{title}</h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-white/75">{description}</p>
       </div>
     </section>
   );

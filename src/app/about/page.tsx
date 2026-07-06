@@ -7,25 +7,28 @@ export default function AboutPage() {
   return (
     <div>
       <PageHero
-        overline="Our Story"
-        title={`About ${SITE_NAME}`}
-        description="Premium hunting expeditions and survival challenges for those who travel to be transformed."
+        overline="About"
+        title={SITE_NAME}
+        description="An international tour agency — with hunting and survival challenges as our signature edge."
         image="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80"
       />
-      <div className="mx-auto max-w-3xl px-6 py-16 md:px-10">
-        <div className="space-y-5 leading-relaxed text-[hsl(218,55%,12%)]/75">
+      <div className="mx-auto max-w-[680px] px-6 py-16 md:px-8">
+        <div className="space-y-5 text-base leading-relaxed text-muted">
           <p>
-            We are an international outdoor expedition operator specializing in licensed game
-            hunting packages and professional survival training programs.
+            {SITE_NAME} is primarily a tour package agency. We design and book international
+            journeys — nature expeditions, cultural trips, and adventure travel worldwide.
+          </p>
+          <p>
+            What sets us apart are two signature experiences: licensed hunting expeditions and
+            professional survival challenges. They are the twist on top of a full-service tour
+            operation.
           </p>
           <p>
             Every booking is processed online with secure deposit payment and automatic PDF receipt
-            generation. Our partners worldwide hold the required licenses and insurance for each
-            activity.
+            generation.
           </p>
           <p>
-            For inquiries:{" "}
-            <a href={`mailto:${COMPANY_EMAIL}`} className="text-[hsl(35,65%,45%)] hover:underline">
+            <a href={`mailto:${COMPANY_EMAIL}`} className="font-medium text-link hover:text-link-hover">
               {COMPANY_EMAIL}
             </a>
           </p>

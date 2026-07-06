@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/site-brand";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-});
-
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
 });
@@ -23,8 +17,8 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Book premium hunting expeditions and survival challenges worldwide. Secure online payment and instant receipts.",
-  themeColor: "#0a1530",
+    "International tour packages with a twist — premium journeys, licensed hunting, and survival challenges. Book online with secure payment.",
+  themeColor: "#fbfbfd",
 };
 
 export default function RootLayout({
@@ -34,9 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${cormorant.variable} ${montserrat.variable} min-h-screen overflow-x-hidden antialiased`}
-      >
+      <body className={`${inter.variable} min-h-screen overflow-x-hidden bg-background antialiased`}>
         <Header />
         <main>{children}</main>
         <Footer />
