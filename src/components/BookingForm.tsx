@@ -46,52 +46,57 @@ export function BookingForm({ pkg }: { pkg: Package }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-stone-800 bg-stone-900/70 p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-5 border border-[hsl(218,55%,12%)]/10 bg-white p-6 shadow-sm"
+    >
       <div>
-        <h2 className="text-2xl font-semibold text-stone-100">Book This Expedition</h2>
-        <p className="mt-1 text-sm text-stone-400">
+        <h2 className="font-serif text-2xl font-medium text-[hsl(218,55%,12%)]">
+          Book This Expedition
+        </h2>
+        <p className="mt-1 text-sm text-[hsl(218,55%,12%)]/65">
           Deposit today: {formatCurrency(deposit)} ({pkg.depositPercent}% of {formatCurrency(total)})
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="text-sm text-stone-300">Full Name *</span>
+          <span className="text-sm text-[hsl(218,55%,12%)]/75">Full Name *</span>
           <input
             name="customerName"
             required
-            className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 text-stone-100"
+            className="mt-1 w-full border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
             placeholder="John Smith"
           />
         </label>
         <label className="block">
-          <span className="text-sm text-stone-300">Email *</span>
+          <span className="text-sm text-[hsl(218,55%,12%)]/75">Email *</span>
           <input
             name="customerEmail"
             type="email"
             required
-            className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 text-stone-100"
+            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
             placeholder="john@email.com"
           />
         </label>
         <label className="block">
-          <span className="text-sm text-stone-300">Phone</span>
+          <span className="text-sm text-[hsl(218,55%,12%)]/75">Phone</span>
           <input
             name="customerPhone"
-            className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 text-stone-100"
+            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
             placeholder="+1 555 000 0000"
           />
         </label>
         <label className="block">
-          <span className="text-sm text-stone-300">Country</span>
+          <span className="text-sm text-[hsl(218,55%,12%)]/75">Country</span>
           <input
             name="country"
-            className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 text-stone-100"
+            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
             placeholder="United States"
           />
         </label>
         <label className="block">
-          <span className="text-sm text-stone-300">Guests *</span>
+          <span className="text-sm text-[hsl(218,55%,12%)]/75">Guests *</span>
           <input
             name="guests"
             type="number"
@@ -99,27 +104,27 @@ export function BookingForm({ pkg }: { pkg: Package }) {
             max={pkg.maxGuests}
             defaultValue={1}
             required
-            className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 text-stone-100"
+            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
           />
         </label>
         <label className="block">
-          <span className="text-sm text-stone-300">Preferred Start Date *</span>
+          <span className="text-sm text-[hsl(218,55%,12%)]/75">Preferred Start Date *</span>
           <input
             name="startDate"
             type="date"
             required
             min={new Date().toISOString().split("T")[0]}
-            className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 text-stone-100"
+            className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
           />
         </label>
       </div>
 
       <label className="block">
-        <span className="text-sm text-stone-300">Special Requests</span>
+        <span className="text-sm text-[hsl(218,55%,12%)]/75">Special Requests</span>
         <textarea
           name="specialRequests"
           rows={3}
-          className="mt-1 w-full rounded-lg border border-stone-700 bg-stone-950 px-3 py-2 text-stone-100"
+          className="mt-1 w-full rounded-lg border border-[hsl(218,55%,12%)]/15 bg-cream px-3 py-2 text-[hsl(218,55%,12%)]"
           placeholder="Dietary needs, experience level, equipment requests..."
         />
       </label>
@@ -129,7 +134,7 @@ export function BookingForm({ pkg }: { pkg: Package }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-full bg-amber-700 py-3 font-semibold text-white transition hover:bg-amber-600 disabled:opacity-60"
+        className="w-full bg-[hsl(35,65%,45%)] py-3 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[hsl(35,65%,38%)] disabled:opacity-60"
       >
         {loading ? "Creating booking..." : `Continue to Payment — ${formatCurrency(deposit)}`}
       </button>

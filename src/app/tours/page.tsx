@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { PackageCard } from "@/components/PackageCard";
+import { PageHero } from "@/components/PageHero";
 
 export const metadata = { title: "Tours" };
 
@@ -10,19 +11,23 @@ export default async function ToursPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-      <h1 className="text-4xl font-bold text-stone-100">International Tours</h1>
-      <p className="mt-3 max-w-2xl text-stone-400">
-        Guided nature expeditions, cultural journeys, and adventure travel worldwide.
-      </p>
-      <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {packages.map((pkg) => (
-          <PackageCard key={pkg.id} pkg={pkg} />
-        ))}
+    <div>
+      <PageHero
+        overline="International Travel"
+        title="Guided Tours"
+        description="Guided nature expeditions, cultural journeys, and adventure travel worldwide."
+        image="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80"
+      />
+      <div className="mx-auto max-w-7xl px-6 py-16 md:px-10">
+        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {packages.map((pkg) => (
+            <PackageCard key={pkg.id} pkg={pkg} />
+          ))}
+        </div>
+        {packages.length === 0 && (
+          <p className="mt-8 text-[hsl(218,55%,12%)]/50">No packages available yet.</p>
+        )}
       </div>
-      {packages.length === 0 && (
-        <p className="mt-8 text-stone-500">No packages available yet.</p>
-      )}
     </div>
   );
 }

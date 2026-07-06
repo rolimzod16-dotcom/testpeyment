@@ -11,6 +11,14 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        navy: "var(--navy)",
+        gold: "var(--gold)",
+        "gold-light": "var(--gold-light)",
+        cream: "var(--cream)",
+      },
+      fontFamily: {
+        serif: ["var(--font-cormorant)", "Georgia", "serif"],
+        sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
       },
     },
   },

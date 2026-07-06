@@ -1,28 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/site-brand";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
-
-const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions";
 
 export const metadata: Metadata = {
   title: {
-    default: `${siteName} — International Tours, Hunting & Survival`,
-    template: `%s | ${siteName}`,
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Book premium international tours, licensed hunting expeditions, and professional survival training. Secure online payment and instant receipts.",
+    "Book premium hunting expeditions and survival challenges worldwide. Secure online payment and instant receipts.",
+  themeColor: "#0a1530",
 };
 
 export default function RootLayout({
@@ -32,7 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}>
+      <body
+        className={`${cormorant.variable} ${montserrat.variable} min-h-screen overflow-x-hidden antialiased`}
+      >
         <Header />
         <main>{children}</main>
         <Footer />
