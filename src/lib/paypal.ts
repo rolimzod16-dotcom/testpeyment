@@ -79,9 +79,12 @@ export async function createPayPalOrder(params: {
       ],
       application_context: {
         brand_name: process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions",
-        landing_page: "LOGIN",
+        landing_page: "NO_PREFERENCE",
         user_action: "PAY_NOW",
         shipping_preference: "NO_SHIPPING",
+        payment_method: {
+          payee_preferred: "UNRESTRICTED",
+        },
         return_url: `${siteUrl}/api/payments/paypal/return?bookingId=${params.bookingId}`,
         cancel_url: `${siteUrl}/payment/${params.bookingId}?cancelled=1`,
       },

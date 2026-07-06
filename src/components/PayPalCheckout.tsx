@@ -60,12 +60,31 @@ export function PayPalCheckout({ bookingId, depositAmount, currency, packageTitl
       </p>
 
       {isSandbox && (
-        <div className="mt-4 rounded-lg border border-amber-800/50 bg-amber-950/30 p-4 text-sm text-amber-200">
+        <div className="mt-4 space-y-3 rounded-lg border border-amber-800/50 bg-amber-950/30 p-4 text-sm text-amber-200">
           <p className="font-semibold">Sandbox test mode</p>
-          <p className="mt-1 text-amber-200/80">
-            After clicking Pay, log in with a <strong>Sandbox Buyer</strong> account from{" "}
-            developer.paypal.com → Testing Tools → Sandbox Accounts. Do not use your real PayPal.
+          <p className="text-amber-200/80">
+            Do <strong>not</strong> use your real PayPal account. Pick one option:
           </p>
+          <ol className="list-decimal space-y-2 pl-5 text-amber-200/80">
+            <li>
+              <strong>Guest card (easiest):</strong> on the PayPal page click{" "}
+              <em>Pay with Debit or Credit Card</em>. Use test Visa{" "}
+              <span className="font-mono">4032 0320 3446 3523</span>, any future expiry, any CVV.
+            </li>
+            <li>
+              <strong>Sandbox buyer:</strong>{" "}
+              <a
+                href="https://developer.paypal.com/dashboard/accounts"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-amber-100"
+              >
+                developer.paypal.com → Sandbox Accounts
+              </a>
+              . Open a <em>Personal</em> account → edit → set balance to <strong>$5000 USD</strong>.
+              Then log in with that sandbox email/password on the PayPal page.
+            </li>
+          </ol>
         </div>
       )}
 

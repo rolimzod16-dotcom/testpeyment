@@ -34,9 +34,14 @@ export default async function PaymentPage({
         </p>
       )}
       {query.error && (
-        <p className="mt-4 rounded-lg bg-red-950/40 px-3 py-2 text-sm text-red-300">
-          Payment failed after PayPal redirect. Try again or use a Sandbox test buyer account.
-        </p>
+        <div className="mt-4 rounded-lg bg-red-950/40 px-4 py-3 text-sm text-red-300">
+          <p className="font-semibold">Payment was denied by PayPal Sandbox</p>
+          <p className="mt-1">
+            This usually means the sandbox buyer has $0 balance or you logged in with a real PayPal
+            account. Try <strong>Pay with Debit or Credit Card</strong> (guest) instead, or fund your
+            sandbox buyer at developer.paypal.com → Sandbox Accounts.
+          </p>
+        </div>
       )}
 
       <div className="mt-8 rounded-2xl border border-stone-800 bg-stone-900/50 p-6">
