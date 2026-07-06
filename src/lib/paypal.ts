@@ -1,7 +1,11 @@
+import { getSiteUrl } from "@/lib/site-url";
+
 const PAYPAL_API =
   process.env.PAYPAL_MODE === "live"
     ? "https://api-m.paypal.com"
     : "https://api-m.sandbox.paypal.com";
+
+const MIN_PAYPAL_USD = 1;
 
 async function getAccessToken() {
   const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
@@ -22,28 +26,37 @@ async function getAccessToken() {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to authenticate with PayPal");
+    const detail = await response.text();
+    throw new Error(`PayPal auth failed: ${detail}`);
   }
 
   const data = (await response.json()) as { access_token: string };
   return data.access_token;
 }
 
-const MIN_PAYPAL_USD = 1;
+function normalizeAmount(amount: number, currency: string) {
+  let value = amount;
+  if (currency === "USD" && value < MIN_PAYPAL_USD) {
+    value = MIN_PAYPAL_USD;
+  }
+  return value.toFixed(2);
+}
+
+type PayPalOrderResponse = {
+  id: string;
+  links?: Array<{ href: string; rel: string; method: string }>;
+};
 
 export async function createPayPalOrder(params: {
   depositAmount: number;
   currency: string;
   bookingRef: string;
+  bookingId: string;
   description: string;
 }) {
   const token = await getAccessToken();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
-  let amount = params.depositAmount;
-  if (params.currency === "USD" && amount < MIN_PAYPAL_USD) {
-    amount = MIN_PAYPAL_USD;
-  }
+  const siteUrl = getSiteUrl();
+  const value = normalizeAmount(params.depositAmount, params.currency);
 
   const response = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
     method: "POST",
@@ -60,16 +73,17 @@ export async function createPayPalOrder(params: {
           custom_id: params.bookingRef,
           amount: {
             currency_code: params.currency,
-            value: amount.toFixed(2),
+            value,
           },
         },
       ],
       application_context: {
         brand_name: process.env.NEXT_PUBLIC_SITE_NAME || "WildFrontier Expeditions",
-        landing_page: "NO_PREFERENCE",
+        landing_page: "LOGIN",
         user_action: "PAY_NOW",
-        return_url: `${siteUrl}/payment/success`,
-        cancel_url: `${siteUrl}/payment/cancel`,
+        shipping_preference: "NO_SHIPPING",
+        return_url: `${siteUrl}/api/payments/paypal/return?bookingId=${params.bookingId}`,
+        cancel_url: `${siteUrl}/payment/${params.bookingId}?cancelled=1`,
       },
     }),
   });
@@ -79,7 +93,14 @@ export async function createPayPalOrder(params: {
     throw new Error(`PayPal order creation failed: ${error}`);
   }
 
-  return response.json() as Promise<{ id: string }>;
+  const order = (await response.json()) as PayPalOrderResponse;
+  const approveLink = order.links?.find((l) => l.rel === "approve")?.href;
+
+  if (!approveLink) {
+    throw new Error("PayPal approve link not found");
+  }
+
+  return { orderId: order.id, approveUrl: approveLink };
 }
 
 export async function capturePayPalOrder(orderId: string) {

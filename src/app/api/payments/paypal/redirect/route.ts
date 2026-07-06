@@ -35,10 +35,10 @@ export async function POST(request: Request) {
       data: { paypalOrderId: orderId },
     });
 
-    return NextResponse.json({ orderId, approveUrl });
+    return NextResponse.json({ approveUrl });
   } catch (error) {
     console.error(error);
-    const message = error instanceof Error ? error.message : "Failed to create PayPal order";
+    const message = error instanceof Error ? error.message : "Failed to start PayPal payment";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }

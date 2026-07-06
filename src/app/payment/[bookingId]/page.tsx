@@ -5,10 +5,13 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 
 export default async function PaymentPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ bookingId: string }>;
+  searchParams: Promise<{ cancelled?: string; error?: string }>;
 }) {
   const { bookingId } = await params;
+  const query = await searchParams;
   const booking = await prisma.booking.findUnique({
     where: { id: bookingId },
     include: { package: true },
@@ -24,6 +27,17 @@ export default async function PaymentPage({
       <p className="mt-2 text-stone-400">
         Booking reference: <span className="font-mono text-stone-200">{booking.bookingRef}</span>
       </p>
+
+      {query.cancelled && (
+        <p className="mt-4 rounded-lg bg-amber-950/40 px-3 py-2 text-sm text-amber-300">
+          Payment cancelled. You can try again below.
+        </p>
+      )}
+      {query.error && (
+        <p className="mt-4 rounded-lg bg-red-950/40 px-3 py-2 text-sm text-red-300">
+          Payment failed after PayPal redirect. Try again or use a Sandbox test buyer account.
+        </p>
+      )}
 
       <div className="mt-8 rounded-2xl border border-stone-800 bg-stone-900/50 p-6">
         <h2 className="font-semibold text-stone-200">Booking Summary</h2>

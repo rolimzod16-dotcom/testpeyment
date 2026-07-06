@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/lib/utils";
 
 type Props = {
@@ -13,102 +11,76 @@ type Props = {
 };
 
 export function PayPalCheckout({ bookingId, depositAmount, currency, packageTitle }: Props) {
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [paying, setPaying] = useState(false);
+
   const clientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID;
+  const chargeAmount = currency === "USD" && depositAmount < 1 ? 1 : depositAmount;
+  const isSandbox = process.env.NEXT_PUBLIC_PAYPAL_MODE !== "live";
+
+  async function handlePay() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/payments/paypal/redirect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId }),
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data.approveUrl) {
+        throw new Error(data.error || "Could not start PayPal payment");
+      }
+
+      window.location.href = data.approveUrl;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Payment failed");
+      setLoading(false);
+    }
+  }
 
   if (!clientId) {
     return (
       <div className="rounded-2xl border border-red-800 bg-red-950/30 p-6">
         <p className="font-semibold text-red-300">PayPal not configured</p>
         <p className="mt-2 text-sm text-red-200/80">
-          Add NEXT_PUBLIC_PAYPAL_CLIENT_ID in Vercel → Settings → Environment Variables, then
-          Redeploy.
+          Add NEXT_PUBLIC_PAYPAL_CLIENT_ID in Vercel, then Redeploy.
         </p>
       </div>
     );
   }
 
-  const chargeAmount = currency === "USD" && depositAmount < 1 ? 1 : depositAmount;
-
   return (
     <div className="rounded-2xl border border-stone-800 bg-stone-900/70 p-6">
-      <h2 className="text-xl font-semibold text-stone-100">Pay Deposit</h2>
+      <h2 className="text-xl font-semibold text-stone-100">Pay with PayPal</h2>
       <p className="mt-1 text-sm text-stone-400">
         {packageTitle} — {formatCurrency(chargeAmount, currency)}
       </p>
-      <p className="mt-2 text-xs text-stone-500">
-        Sandbox mode: log in with a{" "}
-        <strong className="text-stone-400">PayPal Sandbox test buyer</strong> account (not your real
-        PayPal).
-      </p>
+
+      {isSandbox && (
+        <div className="mt-4 rounded-lg border border-amber-800/50 bg-amber-950/30 p-4 text-sm text-amber-200">
+          <p className="font-semibold">Sandbox test mode</p>
+          <p className="mt-1 text-amber-200/80">
+            After clicking Pay, log in with a <strong>Sandbox Buyer</strong> account from{" "}
+            developer.paypal.com → Testing Tools → Sandbox Accounts. Do not use your real PayPal.
+          </p>
+        </div>
+      )}
 
       {error && (
         <p className="mt-4 rounded-lg bg-red-950/50 px-3 py-2 text-sm text-red-300">{error}</p>
       )}
 
-      <div className="mt-6">
-        <PayPalScriptProvider
-          options={{
-            clientId,
-            currency,
-            intent: "capture",
-          }}
-        >
-          <PayPalButtons
-            disabled={paying}
-            style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }}
-            createOrder={async () => {
-              setError("");
-              const res = await fetch("/api/payments/paypal/create-order", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ bookingId }),
-              });
-              const data = await res.json();
-              if (!res.ok) {
-                const msg = data.error || "Failed to create order";
-                setError(msg);
-                throw new Error(msg);
-              }
-              return data.orderId;
-            }}
-            onApprove={async (data) => {
-              setPaying(true);
-              setError("");
-              try {
-                const res = await fetch("/api/payments/paypal/capture", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    bookingId,
-                    orderId: data.orderID,
-                  }),
-                });
-                const result = await res.json();
-                if (!res.ok) {
-                  const msg = result.error || "Payment failed";
-                  setError(msg);
-                  setPaying(false);
-                  return;
-                }
-                router.push(`/confirmation/${bookingId}`);
-              } catch (e) {
-                setError(e instanceof Error ? e.message : "Payment failed");
-                setPaying(false);
-              }
-            }}
-            onCancel={() => setError("Payment cancelled.")}
-            onError={(err) => {
-              console.error("PayPal error:", err);
-              setError(
-                "PayPal error. Use Sandbox test buyer account from developer.paypal.com → Testing Tools → Sandbox Accounts."
-              );
-            }}
-          />
-        </PayPalScriptProvider>
-      </div>
+      <button
+        type="button"
+        onClick={handlePay}
+        disabled={loading}
+        className="mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-[#ffc439] py-4 text-lg font-bold text-[#003087] transition hover:bg-[#f5ba2e] disabled:opacity-60"
+      >
+        {loading ? "Redirecting to PayPal..." : "Pay with PayPal"}
+      </button>
     </div>
   );
 }
