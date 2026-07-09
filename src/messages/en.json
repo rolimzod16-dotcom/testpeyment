@@ -123,7 +123,8 @@
     "maxGuests": "Max {count} guests",
     "perPerson": "/ person",
     "moreFrom": "More {category}",
-    "learnMore": "Learn more ›"
+    "learnMore": "Learn more ›",
+    "downloadDoc": "Download itinerary / PDF"
   },
   "booking": {
     "title": "Book This Expedition",

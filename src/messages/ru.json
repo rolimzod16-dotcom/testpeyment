@@ -123,7 +123,8 @@
     "maxGuests": "До {count} гостей",
     "perPerson": "/ человек",
     "moreFrom": "Ещё в разделе {category}",
-    "learnMore": "Подробнее ›"
+    "learnMore": "Подробнее ›",
+    "downloadDoc": "Скачать программу / PDF"
   },
   "booking": {
     "title": "Забронировать экспедицию",

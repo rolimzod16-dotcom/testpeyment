@@ -123,7 +123,8 @@
     "maxGuests": "Макс. {count} меҳмон",
     "perPerson": "/ нафар",
     "moreFrom": "Боз дар {category}",
-    "learnMore": "Муфассал ›"
+    "learnMore": "Муфассал ›",
+    "downloadDoc": "Барнома / PDF-ро зеркашӣ кунед"
   },
   "booking": {
     "title": "Ин экспедитсияро брон кунед",

@@ -28,6 +28,7 @@ type PackageRow = {
   depositPercent: number;
   maxGuests: number;
   imageUrl: string;
+  documentUrl?: string | null;
   highlights: string;
   included: string;
   excluded: string;
@@ -71,6 +72,7 @@ const EMPTY_FORM = {
   depositPercent: "30",
   maxGuests: "10",
   imageUrl: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80",
+  documentUrl: "",
   highlights: "",
   included: "",
   excluded: "",
@@ -198,6 +200,7 @@ export default function AdminPage() {
       depositPercent: String(pkg.depositPercent),
       maxGuests: String(pkg.maxGuests),
       imageUrl: pkg.imageUrl,
+      documentUrl: pkg.documentUrl || "",
       highlights: linesFromJson(pkg.highlights),
       included: linesFromJson(pkg.included),
       excluded: linesFromJson(pkg.excluded),
@@ -230,6 +233,7 @@ export default function AdminPage() {
       depositPercent: Number(form.depositPercent) || 30,
       maxGuests: Number(form.maxGuests) || 10,
       imageUrl: form.imageUrl.trim(),
+      documentUrl: form.documentUrl.trim() || null,
       highlights: parseLines(form.highlights),
       included: parseLines(form.included),
       excluded: parseLines(form.excluded),
@@ -420,6 +424,7 @@ export default function AdminPage() {
               setForm={setForm}
               editingId={editingId}
               loading={loading}
+              password={password}
               onAdd={openCreate}
               onEdit={openEdit}
               onSave={savePackage}
@@ -430,6 +435,8 @@ export default function AdminPage() {
               onHide={(p) => removePackage(p, false)}
               onDelete={(p) => removePackage(p, true)}
               onToggleActive={toggleActive}
+              onError={setError}
+              onOk={setOkMsg}
             />
           )}
         </main>
@@ -516,6 +523,7 @@ function CategoryPanel({
   setForm,
   editingId,
   loading,
+  password,
   onAdd,
   onEdit,
   onSave,
@@ -523,6 +531,8 @@ function CategoryPanel({
   onHide,
   onDelete,
   onToggleActive,
+  onError,
+  onOk,
 }: {
   category: "tours" | "hunting" | "survival";
   packages: PackageRow[];
@@ -531,6 +541,7 @@ function CategoryPanel({
   setForm: Dispatch<SetStateAction<typeof EMPTY_FORM>>;
   editingId: string | null;
   loading: boolean;
+  password: string;
   onAdd: () => void;
   onEdit: (p: PackageRow) => void;
   onSave: (e: FormEvent) => void;
@@ -538,12 +549,49 @@ function CategoryPanel({
   onHide: (p: PackageRow) => void;
   onDelete: (p: PackageRow) => void;
   onToggleActive: (p: PackageRow) => void;
+  onError: (msg: string) => void;
+  onOk: (msg: string) => void;
 }) {
+  const [uploading, setUploading] = useState<"image" | "document" | null>(null);
+
   const titles: Record<string, string> = {
     tours: "Обычные туры",
     hunting: "Hunting",
     survival: "Survival Challenge",
   };
+
+  async function uploadFile(file: File, target: "image" | "document") {
+    onError("");
+    onOk("");
+    if (file.size > 10 * 1024 * 1024) {
+      onError("Файл больше 10 MB");
+      return;
+    }
+    setUploading(target);
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      body.append("folder", `packages/${category}`);
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        headers: { "x-admin-password": password },
+        body,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || data.hint || "Upload failed");
+      if (target === "image") {
+        setForm((f) => ({ ...f, imageUrl: data.url }));
+        onOk("Картинка загружена в Supabase");
+      } else {
+        setForm((f) => ({ ...f, documentUrl: data.url }));
+        onOk("Документ загружен в Supabase");
+      }
+    } catch (err) {
+      onError(err instanceof Error ? err.message : "Ошибка загрузки");
+    } finally {
+      setUploading(null);
+    }
+  }
 
   const field = (key: keyof typeof EMPTY_FORM, label: string, opts?: { rows?: number; type?: string }) => (
     <label className="block text-sm text-foreground/80">
@@ -606,7 +654,65 @@ function CategoryPanel({
             {field("depositPercent", "Депозит %", { type: "number" })}
             {field("maxGuests", "Макс. гостей", { type: "number" })}
             {field("sortOrder", "Порядок (sort)", { type: "number" })}
-            <div className="md:col-span-2">{field("imageUrl", "URL картинки *")}</div>
+
+            <div className="md:col-span-2 space-y-2 rounded-xl bg-surface/80 p-4 ring-1 ring-black/[0.04]">
+              <p className="text-sm font-medium text-foreground">Картинка (до 10 MB)</p>
+              <p className="text-xs text-muted">JPG / PNG / WEBP / GIF → Supabase Storage</p>
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                disabled={!!uploading}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void uploadFile(f, "image");
+                  e.target.value = "";
+                }}
+                className="block w-full text-sm text-muted file:mr-3 file:rounded-full file:border-0 file:bg-foreground file:px-4 file:py-2 file:text-xs file:font-semibold file:text-white"
+              />
+              {uploading === "image" && (
+                <p className="text-xs text-link">Загрузка картинки…</p>
+              )}
+              {form.imageUrl && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={form.imageUrl}
+                  alt="preview"
+                  className="mt-2 h-28 w-full max-w-xs rounded-lg object-cover ring-1 ring-black/[0.06]"
+                />
+              )}
+              {field("imageUrl", "URL картинки * (или загрузи выше)")}
+            </div>
+
+            <div className="md:col-span-2 space-y-2 rounded-xl bg-surface/80 p-4 ring-1 ring-black/[0.04]">
+              <p className="text-sm font-medium text-foreground">Документ PDF / DOC (до 10 MB)</p>
+              <p className="text-xs text-muted">Программа тура, брошюра — опционально</p>
+              <input
+                type="file"
+                accept="application/pdf,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                disabled={!!uploading}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void uploadFile(f, "document");
+                  e.target.value = "";
+                }}
+                className="block w-full text-sm text-muted file:mr-3 file:rounded-full file:border-0 file:bg-foreground file:px-4 file:py-2 file:text-xs file:font-semibold file:text-white"
+              />
+              {uploading === "document" && (
+                <p className="text-xs text-link">Загрузка документа…</p>
+              )}
+              {form.documentUrl && (
+                <a
+                  href={form.documentUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block text-sm text-link hover:text-link-hover"
+                >
+                  Открыть загруженный файл →
+                </a>
+              )}
+              {field("documentUrl", "URL документа (или загрузи выше)")}
+            </div>
+
             <div className="md:col-span-2">{field("description", "Краткое описание *", { rows: 2 })}</div>
             <div className="md:col-span-2">
               {field("longDescription", "Полное описание", { rows: 4 })}
@@ -691,6 +797,16 @@ function CategoryPanel({
                 {pkg._count?.bookings ?? 0}
               </p>
               <p className="mt-1 line-clamp-1 text-sm text-muted">{pkg.description}</p>
+              {pkg.documentUrl && (
+                <a
+                  href={pkg.documentUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 inline-block text-xs text-link hover:text-link-hover"
+                >
+                  PDF / документ →
+                </a>
+              )}
             </div>
             <div className="flex shrink-0 flex-wrap gap-2">
               <button

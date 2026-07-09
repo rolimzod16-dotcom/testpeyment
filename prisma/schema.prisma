@@ -22,6 +22,7 @@ model Package {
   depositPercent  Int       @default(30)
   maxGuests       Int       @default(12)
   imageUrl        String
+  documentUrl     String?
   highlights      String
   included        String
   excluded        String

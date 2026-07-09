@@ -128,6 +128,16 @@ export default async function PackagePage({ params }: Props) {
               {formatCurrency(pkg.priceUsd)}{" "}
               <span className="text-base font-normal text-muted">{t("perPerson")}</span>
             </p>
+            {pkg.documentUrl && (
+              <a
+                href={pkg.documentUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex text-sm font-medium text-link hover:text-link-hover"
+              >
+                {t("downloadDoc")} ›
+              </a>
+            )}
             <div className="mt-8">
               <BookingForm pkg={pkg} />
             </div>
