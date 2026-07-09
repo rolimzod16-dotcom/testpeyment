@@ -3,7 +3,10 @@ import { CategoryPackagesPage } from "@/components/CategoryPackagesPage";
 
 export const dynamic = "force-dynamic";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ sort?: string }>;
+};
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -11,6 +14,7 @@ export async function generateMetadata({ params }: Props) {
   return { title: t("pageTitle") };
 }
 
-export default function ToursPage() {
-  return <CategoryPackagesPage category="tours" />;
+export default async function ToursPage({ searchParams }: Props) {
+  const { sort } = await searchParams;
+  return <CategoryPackagesPage category="tours" sort={sort} />;
 }

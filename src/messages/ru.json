@@ -23,9 +23,26 @@
     "survivalCta": "Принять вызов",
     "agencyTitle": "Тур-агентство с изюминкой.",
     "agencyDescription": "{siteName} — это международные турпакеты плюс лицензированная охота и survival-челленджи для тех, кому нужно больше обычного тура.",
-    "featuredLabel": "Турпакеты",
-    "featuredTitle": "Избранные туры",
+    "pillarsTitle": "Три формата путешествий.",
+    "pillarsSubtitle": "Основной каталог туров — и две signature-программы для тех, кто хочет большего.",
+    "pillarToursTitle": "Туры",
+    "pillarToursDesc": "Природа, культура и приключения по всему миру — наш основной каталог.",
+    "pillarToursCta": "Смотреть туры ›",
+    "pillarHuntingTitle": "Охота",
+    "pillarHuntingDesc": "Лицензированные экспедиции с аутфиттерами, разрешениями и лоджами.",
+    "pillarHuntingCta": "Смотреть охоту ›",
+    "pillarSurvivalTitle": "Survival Challenge",
+    "pillarSurvivalDesc": "Профессиональная подготовка: бушкрафт, навигация, навыки спасения.",
+    "pillarSurvivalCta": "Принять вызов ›",
+    "featuredToursLabel": "Турпакеты",
+    "featuredToursTitle": "Избранные туры",
     "viewAllTours": "Все туры ›",
+    "featuredHuntingLabel": "Изюминка",
+    "featuredHuntingTitle": "Избранная охота",
+    "viewAllHunting": "Вся охота ›",
+    "featuredSurvivalLabel": "Изюминка",
+    "featuredSurvivalTitle": "Избранный survival",
+    "viewAllSurvival": "Все survival ›",
     "stepsTitle": "Бронирование в 4 шага.",
     "step1Title": "Выберите пакет",
     "step1Desc": "Туры, охота или survival.",
@@ -42,30 +59,39 @@
       "pageTitle": "Международные туры",
       "overline": "Турпакеты",
       "description": "Наше основное направление — подобранные международные турпакеты: природа, культура и приключения.",
+      "forWho": "Для путешественников, которым нужны гид, логистика и понятный маршрут — от лёгких scenic-туров до умеренных многодневных треков.",
       "emptyTitle": "Турпакетов пока нет",
       "emptyDescription": "Скоро здесь появятся новые туры.",
       "countOne": "1 турпакет",
-      "countMany": "{count} турпакетов"
+      "countMany": "{count} турпакетов",
+      "sortPriceAsc": "Цена ↑",
+      "sortPriceDesc": "Цена ↓"
     },
     "hunting": {
       "navLabel": "Охота",
       "pageTitle": "Охотничьи пакеты",
       "overline": "Изюминка",
       "description": "Лицензированная охота с профессиональными аутфиттерами, разрешениями и проживанием в лоджах.",
+      "forWho": "Для охотников, которым нужна организованная международная охота: гиды, поддержка с разрешениями и проживание в лодже.",
       "emptyTitle": "Охотничьих пакетов пока нет",
       "emptyDescription": "Скоро здесь появятся новые охотничьи туры.",
       "countOne": "1 охотничий пакет",
-      "countMany": "{count} охотничьих пакетов"
+      "countMany": "{count} охотничьих пакетов",
+      "sortPriceAsc": "Цена ↑",
+      "sortPriceDesc": "Цена ↓"
     },
     "survival": {
       "navLabel": "Survival Challenge",
       "pageTitle": "Survival Challenge",
       "overline": "Изюминка",
       "description": "Профессиональные программы выживания — бушкрафт, навигация и протоколы экстренных ситуаций.",
+      "forWho": "Для тех, кто хочет реальные навыки, а не шоу. Курсы с сертифицированными инструкторами: Арктика, джунгли, Альпы, пустыня.",
       "emptyTitle": "Survival-программ пока нет",
       "emptyDescription": "Скоро здесь появятся новые челленджи.",
       "countOne": "1 survival-пакет",
-      "countMany": "{count} survival-пакетов"
+      "countMany": "{count} survival-пакетов",
+      "sortPriceAsc": "Цена ↑",
+      "sortPriceDesc": "Цена ↓"
     }
   },
   "about": {
@@ -73,7 +99,18 @@
     "heroDescription": "Международное тур-агентство — с охотой и survival-челленджами как нашей изюминкой.",
     "p1": "{siteName} — в первую очередь агентство турпакетов. Мы организуем международные путешествия: природа, культура и приключения по всему миру.",
     "p2": "Наша особенность — две signature-программы: лицензированная охота и профессиональные survival-челленджи. Это изюминка поверх полноценного тур-сервиса.",
-    "p3": "Каждое бронирование обрабатывается онлайн с безопасной оплатой депозита и автоматическим PDF-чеком."
+    "pillarsTitle": "Три опоры бренда",
+    "pillarToursTitle": "Международные туры",
+    "pillarToursBody": "Подобранные пакеты по всему миру — треккинг, культура, природа и soft-adventure с проверенными партнёрами.",
+    "pillarToursCta": "Смотреть туры ›",
+    "pillarHuntingTitle": "Лицензированная охота",
+    "pillarHuntingBody": "Охота в поместьях и free-range с аутфиттерами, поддержкой по разрешениям и проживанием в лодже.",
+    "pillarHuntingCta": "Смотреть охоту ›",
+    "pillarSurvivalTitle": "Survival Challenge",
+    "pillarSurvivalBody": "Структурированные программы обучения: бушкрафт, навигация и навыки экстренных ситуаций.",
+    "pillarSurvivalCta": "Смотреть survival ›",
+    "bookingTitle": "Как работает бронирование",
+    "bookingBody": "Выберите пакет, заполните данные и оплатите депозит онлайн через PayPal (карта или баланс PayPal). Мгновенное подтверждение и PDF-чек. Остаток — до выезда по условиям пакета."
   },
   "package": {
     "backTo": "← Назад к разделу {category}",
@@ -83,6 +120,7 @@
     "notIncluded": "Не включено",
     "species": "Вид",
     "level": "Уровень",
+    "maxGuests": "До {count} гостей",
     "perPerson": "/ человек",
     "moreFrom": "Ещё в разделе {category}",
     "learnMore": "Подробнее ›"
@@ -143,7 +181,7 @@
     "notConfigured": "PayPal не настроен для режима {mode}"
   },
   "footer": {
-    "tagline": "Международные турпакеты — с лицензированной охотой и survival-челленджами как нашей изюминкой.",
+    "tagline": "Международные туры · лицензированная охота · survival-челленджи. Онлайн-бронь с депозитом PayPal.",
     "explore": "Разделы",
     "contact": "Контакты",
     "checkout": "Безопасная оплата PayPal · Мгновенные PDF-чеки",

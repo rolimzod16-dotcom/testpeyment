@@ -26,6 +26,8 @@ model Package {
   included        String
   excluded        String
   active          Boolean   @default(true)
+  featured        Boolean   @default(false)
+  sortOrder       Int       @default(0)
   createdAt       DateTime  @default(now())
   bookings        Booking[]
 }

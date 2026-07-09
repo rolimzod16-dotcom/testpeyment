@@ -23,9 +23,26 @@
     "survivalCta": "Take the challenge",
     "agencyTitle": "A tour agency with something extra.",
     "agencyDescription": "{siteName} is built around international tour packages — plus licensed hunting expeditions and survival challenges for travelers who want more than a standard trip.",
-    "featuredLabel": "Tour Packages",
-    "featuredTitle": "Featured tours",
+    "pillarsTitle": "Three ways to travel.",
+    "pillarsSubtitle": "Core tours for everyone — plus two signature experiences for those who want more.",
+    "pillarToursTitle": "Tours",
+    "pillarToursDesc": "Nature, culture, and adventure packages worldwide — our main catalog.",
+    "pillarToursCta": "Browse tours ›",
+    "pillarHuntingTitle": "Hunting",
+    "pillarHuntingDesc": "Licensed expeditions with outfitters, permits, and lodge stays.",
+    "pillarHuntingCta": "Explore hunting ›",
+    "pillarSurvivalTitle": "Survival Challenge",
+    "pillarSurvivalDesc": "Professional wilderness training — bushcraft, navigation, rescue skills.",
+    "pillarSurvivalCta": "Take the challenge ›",
+    "featuredToursLabel": "Tour Packages",
+    "featuredToursTitle": "Featured tours",
     "viewAllTours": "View all tours ›",
+    "featuredHuntingLabel": "Signature",
+    "featuredHuntingTitle": "Featured hunting",
+    "viewAllHunting": "View all hunting ›",
+    "featuredSurvivalLabel": "Signature",
+    "featuredSurvivalTitle": "Featured survival",
+    "viewAllSurvival": "View all survival ›",
     "stepsTitle": "Book in four simple steps.",
     "step1Title": "Pick a package",
     "step1Desc": "Tours, hunting, or survival.",
@@ -42,30 +59,39 @@
       "pageTitle": "International Tours",
       "overline": "Tour Packages",
       "description": "Our core offering — curated international tour packages for nature, culture, and adventure.",
+      "forWho": "Best for travelers who want guided journeys with strong logistics, local hosts, and a clear itinerary — from easy scenic circuits to moderate multi-day treks.",
       "emptyTitle": "No tour packages yet",
       "emptyDescription": "New tour packages will appear here soon.",
       "countOne": "1 tour package",
-      "countMany": "{count} tour packages"
+      "countMany": "{count} tour packages",
+      "sortPriceAsc": "Price ↑",
+      "sortPriceDesc": "Price ↓"
     },
     "hunting": {
       "navLabel": "Hunting",
       "pageTitle": "Hunting Packages",
       "overline": "Signature Experience",
       "description": "Licensed hunting expeditions with professional outfitters, permits, and lodge stays.",
+      "forWho": "For licensed hunters seeking organized international hunts with professional guides, clear permit support, and lodge-based logistics.",
       "emptyTitle": "No hunting packages yet",
       "emptyDescription": "New hunting expeditions will appear here soon.",
       "countOne": "1 hunting package",
-      "countMany": "{count} hunting packages"
+      "countMany": "{count} hunting packages",
+      "sortPriceAsc": "Price ↑",
+      "sortPriceDesc": "Price ↓"
     },
     "survival": {
       "navLabel": "Survival Challenge",
       "pageTitle": "Survival Challenge",
       "overline": "Signature Experience",
       "description": "Professional wilderness survival programs — bushcraft, navigation, and emergency protocols.",
+      "forWho": "For adventurers who want real skills training — not a gimmick. Progressive courses led by certified instructors in Arctic, jungle, alpine, and desert environments.",
       "emptyTitle": "No survival programs yet",
       "emptyDescription": "New survival challenges will appear here soon.",
       "countOne": "1 survival package",
-      "countMany": "{count} survival packages"
+      "countMany": "{count} survival packages",
+      "sortPriceAsc": "Price ↑",
+      "sortPriceDesc": "Price ↓"
     }
   },
   "about": {
@@ -73,7 +99,18 @@
     "heroDescription": "An international tour agency — with hunting and survival challenges as our signature edge.",
     "p1": "{siteName} is primarily a tour package agency. We design and book international journeys — nature expeditions, cultural trips, and adventure travel worldwide.",
     "p2": "What sets us apart are two signature experiences: licensed hunting expeditions and professional survival challenges. They are the twist on top of a full-service tour operation.",
-    "p3": "Every booking is processed online with secure deposit payment and automatic PDF receipt generation."
+    "pillarsTitle": "Our three pillars",
+    "pillarToursTitle": "International Tours",
+    "pillarToursBody": "Curated packages across continents — trekking, culture, nature, and soft adventure with vetted local partners.",
+    "pillarToursCta": "Browse tours ›",
+    "pillarHuntingTitle": "Licensed Hunting",
+    "pillarHuntingBody": "Estate and free-range hunts with professional outfitters, permit support, and lodge accommodation.",
+    "pillarHuntingCta": "Explore hunting ›",
+    "pillarSurvivalTitle": "Survival Challenge",
+    "pillarSurvivalBody": "Structured wilderness training programs that teach real bushcraft, navigation, and emergency skills.",
+    "pillarSurvivalCta": "View survival ›",
+    "bookingTitle": "How booking works",
+    "bookingBody": "Choose a package, submit your details, and pay a secure deposit online via PayPal (card or PayPal balance). You receive instant confirmation and a PDF receipt. Remaining balance is due before departure per package terms."
   },
   "package": {
     "backTo": "← Back to {category}",
@@ -83,6 +120,7 @@
     "notIncluded": "Not Included",
     "species": "Species",
     "level": "Level",
+    "maxGuests": "Max {count} guests",
     "perPerson": "/ person",
     "moreFrom": "More {category}",
     "learnMore": "Learn more ›"
@@ -143,7 +181,7 @@
     "notConfigured": "PayPal not configured for {mode} mode"
   },
   "footer": {
-    "tagline": "International tour packages — with licensed hunting and survival challenges as our signature experiences.",
+    "tagline": "International tours · licensed hunting · survival challenges. Book online with secure PayPal deposit.",
     "explore": "Explore",
     "contact": "Contact",
     "checkout": "Secure PayPal checkout · Instant PDF receipts",

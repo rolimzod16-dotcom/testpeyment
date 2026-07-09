@@ -39,8 +39,16 @@ export default async function PackagePage({ params }: Props) {
   const related = await prisma.package.findMany({
     where: { category: pkg.category, active: true, slug: { not: pkg.slug } },
     take: 3,
-    orderBy: { priceUsd: "asc" },
+    orderBy: [{ sortOrder: "asc" }, { priceUsd: "asc" }],
   });
+
+  const metaBits = [
+    pkg.destination,
+    pkg.duration,
+    pkg.maxGuests ? t("maxGuests", { count: pkg.maxGuests }) : null,
+    pkg.difficulty ? `${t("level")}: ${pkg.difficulty}` : null,
+    pkg.species ? `${t("species")}: ${pkg.species}` : null,
+  ].filter(Boolean) as string[];
 
   return (
     <div className="bg-background">
@@ -53,38 +61,47 @@ export default async function PackagePage({ params }: Props) {
           </nav>
         )}
 
-        <div className="grid gap-10 lg:grid-cols-2">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
           <div>
             <div className="relative h-80 overflow-hidden rounded-2xl bg-surface sm:h-[28rem]">
               <Image src={pkg.imageUrl} alt={pkg.title} fill className="object-cover" priority />
             </div>
-            <div className="mt-8 space-y-6">
+            <div className="mt-8 space-y-8">
               <div>
                 <h2 className="text-lg font-semibold text-foreground">{t("overview")}</h2>
                 <p className="mt-2 leading-relaxed text-muted">{pkg.longDescription}</p>
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-foreground">{t("highlights")}</h2>
-                <ul className="mt-2 list-inside list-disc space-y-1 text-muted">
+                <ul className="mt-3 space-y-2">
                   {highlights.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item} className="flex gap-2 text-muted">
+                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-link" />
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
-                <div>
+                <div className="rounded-xl bg-surface/80 p-4 ring-1 ring-black/[0.04]">
                   <h3 className="font-medium text-emerald-700">{t("included")}</h3>
-                  <ul className="mt-2 space-y-1 text-sm text-muted">
+                  <ul className="mt-3 space-y-2 text-sm text-muted">
                     {included.map((item) => (
-                      <li key={item}>✓ {item}</li>
+                      <li key={item} className="flex gap-2">
+                        <span className="text-emerald-600">✓</span>
+                        <span>{item}</span>
+                      </li>
                     ))}
                   </ul>
                 </div>
-                <div>
+                <div className="rounded-xl bg-surface/80 p-4 ring-1 ring-black/[0.04]">
                   <h3 className="font-medium text-red-600">{t("notIncluded")}</h3>
-                  <ul className="mt-2 space-y-1 text-sm text-muted">
+                  <ul className="mt-3 space-y-2 text-sm text-muted">
                     {excluded.map((item) => (
-                      <li key={item}>✗ {item}</li>
+                      <li key={item} className="flex gap-2">
+                        <span className="text-red-500">✗</span>
+                        <span>{item}</span>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -92,27 +109,15 @@ export default async function PackagePage({ params }: Props) {
             </div>
           </div>
 
-          <div>
+          <div className="lg:sticky lg:top-20 lg:self-start">
             {categoryT && (
               <p className="text-sm font-medium text-link">{categoryT("navLabel")}</p>
             )}
             <h1 className="mt-1 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
               {pkg.title}
             </h1>
-            <p className="mt-2 text-muted">
-              {pkg.destination} · {pkg.duration}
-            </p>
-            {pkg.species && (
-              <p className="mt-1 text-sm text-muted">
-                {t("species")}: {pkg.species}
-              </p>
-            )}
-            {pkg.difficulty && (
-              <p className="mt-1 text-sm text-muted">
-                {t("level")}: {pkg.difficulty}
-              </p>
-            )}
-            <p className="mt-4 text-3xl font-semibold text-foreground">
+            <p className="mt-3 text-sm leading-relaxed text-muted">{metaBits.join(" · ")}</p>
+            <p className="mt-5 text-3xl font-semibold text-foreground">
               {formatCurrency(pkg.priceUsd)}{" "}
               <span className="text-base font-normal text-muted">{t("perPerson")}</span>
             </p>

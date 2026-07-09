@@ -2,13 +2,28 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
 import { HomeBanner } from "@/components/HomeBanner";
-import { PackageCard } from "@/components/PackageCard";
+import { FeaturedCategorySection } from "@/components/FeaturedCategorySection";
 import { CATEGORY_META } from "@/lib/categories";
 import { SITE_NAME } from "@/lib/site-brand";
+import type { PackageCategory } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 type Props = { params: Promise<{ locale: string }> };
+
+async function featuredFor(category: PackageCategory) {
+  const featured = await prisma.package.findMany({
+    where: { active: true, category, featured: true },
+    take: 3,
+    orderBy: [{ sortOrder: "asc" }, { priceUsd: "asc" }],
+  });
+  if (featured.length > 0) return featured;
+  return prisma.package.findMany({
+    where: { active: true, category },
+    take: 3,
+    orderBy: [{ sortOrder: "asc" }, { priceUsd: "asc" }],
+  });
+}
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
@@ -16,11 +31,35 @@ export default async function HomePage({ params }: Props) {
 
   const t = await getTranslations("home");
 
-  const featured = await prisma.package.findMany({
-    where: { active: true, category: "tours" },
-    take: 3,
-    orderBy: { createdAt: "asc" },
-  });
+  const [tours, hunting, survival] = await Promise.all([
+    featuredFor("tours"),
+    featuredFor("hunting"),
+    featuredFor("survival"),
+  ]);
+
+  const pillars = [
+    {
+      key: "tours" as const,
+      title: t("pillarToursTitle"),
+      desc: t("pillarToursDesc"),
+      href: CATEGORY_META.tours.path,
+      cta: t("pillarToursCta"),
+    },
+    {
+      key: "hunting" as const,
+      title: t("pillarHuntingTitle"),
+      desc: t("pillarHuntingDesc"),
+      href: CATEGORY_META.hunting.path,
+      cta: t("pillarHuntingCta"),
+    },
+    {
+      key: "survival" as const,
+      title: t("pillarSurvivalTitle"),
+      desc: t("pillarSurvivalDesc"),
+      href: CATEGORY_META.survival.path,
+      cta: t("pillarSurvivalCta"),
+    },
+  ];
 
   const steps = [
     { step: "1", title: t("step1Title"), desc: t("step1Desc") },
@@ -73,28 +112,63 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      <section className="bg-surface px-6 py-20 md:px-8">
+      <section className="bg-surface px-6 py-16 md:px-8 md:py-20">
         <div className="mx-auto max-w-[980px]">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-sm font-medium text-link">{t("featuredLabel")}</p>
-              <h2 className="mt-1 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-                {t("featuredTitle")}
-              </h2>
-            </div>
-            <Link href={CATEGORY_META.tours.path} className="text-sm font-medium text-link hover:text-link-hover">
-              {t("viewAllTours")}
-            </Link>
-          </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {featured.map((pkg) => (
-              <PackageCard key={pkg.id} pkg={pkg} />
+          <h2 className="text-center text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+            {t("pillarsTitle")}
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-muted">{t("pillarsSubtitle")}</p>
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {pillars.map((pillar) => (
+              <div
+                key={pillar.key}
+                className="flex flex-col rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/[0.04]"
+              >
+                <h3 className="text-xl font-semibold tracking-tight text-foreground">
+                  {pillar.title}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{pillar.desc}</p>
+                <Link
+                  href={pillar.href}
+                  className="mt-5 text-sm font-medium text-link hover:text-link-hover"
+                >
+                  {pillar.cta}
+                </Link>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-background px-6 py-20 md:px-8">
+      <div className="bg-background">
+        <FeaturedCategorySection
+          category="tours"
+          packages={tours}
+          labelKey="featuredToursLabel"
+          titleKey="featuredToursTitle"
+          viewAllKey="viewAllTours"
+        />
+      </div>
+      <div className="bg-surface">
+        <FeaturedCategorySection
+          category="hunting"
+          packages={hunting}
+          labelKey="featuredHuntingLabel"
+          titleKey="featuredHuntingTitle"
+          viewAllKey="viewAllHunting"
+        />
+      </div>
+      <div className="bg-background">
+        <FeaturedCategorySection
+          category="survival"
+          packages={survival}
+          labelKey="featuredSurvivalLabel"
+          titleKey="featuredSurvivalTitle"
+          viewAllKey="viewAllSurvival"
+        />
+      </div>
+
+      <section className="bg-surface px-6 py-20 md:px-8">
         <div className="mx-auto max-w-[980px]">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
             {t("stepsTitle")}
@@ -103,7 +177,7 @@ export default async function HomePage({ params }: Props) {
             {steps.map((item) => (
               <li
                 key={item.step}
-                className="rounded-2xl bg-surface p-6 text-center shadow-sm ring-1 ring-black/[0.04]"
+                className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-black/[0.04]"
               >
                 <span className="text-2xl font-semibold text-muted">{item.step}</span>
                 <p className="mt-3 font-semibold text-foreground">{item.title}</p>

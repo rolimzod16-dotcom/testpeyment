@@ -23,9 +23,26 @@
     "survivalCta": "Челленҷро қабул кунед",
     "agencyTitle": "Агентии турӣ бо хусусият.",
     "agencyDescription": "{siteName} — бастаи байналмилалӣ плюс шикори иҷозатдор ва survival-челленҷ барои касе, ки бештар аз тури оддӣ мехоҳад.",
-    "featuredLabel": "Бастаи турӣ",
-    "featuredTitle": "Турҳои интихобшуда",
+    "pillarsTitle": "Се роҳи сафар.",
+    "pillarsSubtitle": "Турҳои асосӣ — ва ду барномаи signature барои онҳое, ки бештар мехоҳанд.",
+    "pillarToursTitle": "Турҳо",
+    "pillarToursDesc": "Табиат, фарҳанг ва саргардонӣ дар саросари ҷаҳон — каталоги асосии мо.",
+    "pillarToursCta": "Турҳоро бинед ›",
+    "pillarHuntingTitle": "Шикор",
+    "pillarHuntingDesc": "Экспедитсияҳои иҷозатдор бо аутфиттерҳо, иҷозатномаҳо ва лоҷ.",
+    "pillarHuntingCta": "Шикорро бинед ›",
+    "pillarSurvivalTitle": "Survival Challenge",
+    "pillarSurvivalDesc": "Омӯзиши касбӣ: бушкрафт, навигация, малакаҳои наҷот.",
+    "pillarSurvivalCta": "Челленҷро қабул кунед ›",
+    "featuredToursLabel": "Бастаи турӣ",
+    "featuredToursTitle": "Турҳои интихобшуда",
     "viewAllTours": "Ҳамаи турҳо ›",
+    "featuredHuntingLabel": "Хусусият",
+    "featuredHuntingTitle": "Шикори интихобшуда",
+    "viewAllHunting": "Ҳамаи шикор ›",
+    "featuredSurvivalLabel": "Хусусият",
+    "featuredSurvivalTitle": "Survival-и интихобшуда",
+    "viewAllSurvival": "Ҳамаи survival ›",
     "stepsTitle": "Брон дар 4 қадам.",
     "step1Title": "Бастаро интихоб кунед",
     "step1Desc": "Турҳо, шикор ё survival.",
@@ -42,30 +59,39 @@
       "pageTitle": "Турҳои байналмилалӣ",
       "overline": "Бастаи турӣ",
       "description": "Иҷрои асосии мо — бастаи байналмилалии турӣ: табиат, фарҳанг ва саргардонӣ.",
+      "forWho": "Барои сайёҳоне, ки роҳбалад, логистика ва масири равшан мехоҳанд — аз турҳои осон то трекҳои муътадил.",
       "emptyTitle": "Бастаи турӣ ҳоло нест",
       "emptyDescription": "Турҳои нав ба зудӣ пайдо мешаванд.",
       "countOne": "1 бастаи турӣ",
-      "countMany": "{count} бастаи турӣ"
+      "countMany": "{count} бастаи турӣ",
+      "sortPriceAsc": "Нарх ↑",
+      "sortPriceDesc": "Нарх ↓"
     },
     "hunting": {
       "navLabel": "Шикор",
       "pageTitle": "Бастаи шикор",
       "overline": "Хусусият",
       "description": "Шикори иҷозатдор бо аутфиттерҳои касбӣ, иҷозатномаҳо ва истиқоматгоҳ.",
+      "forWho": "Барои шикорчиён: шикори байналмилалии ташкилшуда, роҳбаладҳо, дастгирии иҷозатнома ва лоҷ.",
       "emptyTitle": "Бастаи шикор ҳоло нест",
       "emptyDescription": "Шикори нав ба зудӣ пайдо мешаванд.",
       "countOne": "1 бастаи шикор",
-      "countMany": "{count} бастаи шикор"
+      "countMany": "{count} бастаи шикор",
+      "sortPriceAsc": "Нарх ↑",
+      "sortPriceDesc": "Нарх ↓"
     },
     "survival": {
       "navLabel": "Survival Challenge",
       "pageTitle": "Survival Challenge",
       "overline": "Хусусият",
       "description": "Барномаҳои касбии зиндагӣ дар табиат — бушкрафт, навигация ва протоколҳои фавқулодда.",
+      "forWho": "Барои онҳое, ки малакаҳои воқеӣ мехоҳанд. Курсҳо бо муаллимони сертификатдор: Арктика, ҷангал, Алп, биёбон.",
       "emptyTitle": "Барномаи survival ҳоло нест",
       "emptyDescription": "Челленҷҳои нав ба зудӣ пайдо мешаванд.",
       "countOne": "1 бастаи survival",
-      "countMany": "{count} бастаи survival"
+      "countMany": "{count} бастаи survival",
+      "sortPriceAsc": "Нарх ↑",
+      "sortPriceDesc": "Нарх ↓"
     }
   },
   "about": {
@@ -73,7 +99,18 @@
     "heroDescription": "Агентии байналмилалии турӣ — бо шикор ва survival-челленҷ ҳамчун хусусияти мо.",
     "p1": "{siteName} — дар аввал агентии бастаи турӣ аст. Мо саёҳатҳои байналмилалиро ташкил мекунем: табиат, фарҳанг ва саргардонӣ дар саросари ҷаҳон.",
     "p2": "Хусусияти мо — ду барномаи signature: шикори иҷозатдор ва survival-челленҷҳои касбӣ. Ин хусусият дар болои хидмати пурраи турӣ аст.",
-    "p3": "Ҳар бронкунӣ онлайн коркард мешавад бо пардохти бехатари депозит ва чеки PDF-и худкор."
+    "pillarsTitle": "Се сутуни мо",
+    "pillarToursTitle": "Турҳои байналмилалӣ",
+    "pillarToursBody": "Бастаҳои интихобшуда дар саросари ҷаҳон — треккинг, фарҳанг, табиат бо шарикони боэътимод.",
+    "pillarToursCta": "Турҳоро бинед ›",
+    "pillarHuntingTitle": "Шикори иҷозатдор",
+    "pillarHuntingBody": "Шикор бо аутфиттерҳо, дастгирии иҷозатнома ва истиқомат дар лоҷ.",
+    "pillarHuntingCta": "Шикорро бинед ›",
+    "pillarSurvivalTitle": "Survival Challenge",
+    "pillarSurvivalBody": "Барномаҳои омӯзишӣ: бушкрафт, навигация ва малакаҳои фавқулодда.",
+    "pillarSurvivalCta": "Survival-ро бинед ›",
+    "bookingTitle": "Бронкунӣ чӣ гуна аст",
+    "bookingBody": "Бастаро интихоб кунед, маълумот диҳед ва депозитро онлайн тавассути PayPal пардохт кунед. Тасдиқи фаврӣ ва чеки PDF. Боқимонда — пеш аз сафар."
   },
   "package": {
     "backTo": "← Бозгашт ба {category}",
@@ -83,6 +120,7 @@
     "notIncluded": "Дар баробар нест",
     "species": "Навъ",
     "level": "Сатҳ",
+    "maxGuests": "Макс. {count} меҳмон",
     "perPerson": "/ нафар",
     "moreFrom": "Боз дар {category}",
     "learnMore": "Муфассал ›"
@@ -143,7 +181,7 @@
     "notConfigured": "PayPal барои ҳолати {mode} танзим нашудааст"
   },
   "footer": {
-    "tagline": "Бастаи байналмилалӣ — бо шикори иҷозатдор ва survival-челленҷ ҳамчун хусусияти мо.",
+    "tagline": "Турҳои байналмилалӣ · шикори иҷозатдор · survival-челленҷ. Брон онлайн бо депозити PayPal.",
     "explore": "Қисмҳо",
     "contact": "Тамос",
     "checkout": "Пардохти бехатари PayPal · Чеки фаврии PDF",
