@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { ensureSchema } from "@/lib/ensure-schema";
 import { PayPalPaymentOptions } from "@/components/PayPalPaymentOptions";
 import { validatePayPalEnv } from "@/lib/paypal-config";
+import { validateRampexEnv } from "@/lib/rampex-config";
 import { getSiteUrl } from "@/lib/site-url";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -12,7 +13,7 @@ export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ locale: string; bookingId: string }>;
-  searchParams: Promise<{ cancelled?: string; error?: string }>;
+  searchParams: Promise<{ cancelled?: string; error?: string; rampex?: string }>;
 };
 
 export default async function PaymentPage({ params, searchParams }: Props) {
@@ -33,10 +34,17 @@ export default async function PaymentPage({ params, searchParams }: Props) {
     redirect({ href: `/confirmation/${bookingId}`, locale });
   }
 
+  // After Rampex return, if webhook already marked paid, redirect above.
+  // If still pending, show pending note.
+  const returnedFromRampex = query.rampex === "return";
+
   const chargeAmount =
     booking.currency === "USD" && booking.depositAmount < 1 ? 1 : booking.depositAmount;
   const amountLabel = formatCurrency(chargeAmount, booking.currency);
   const paypalConfig = validatePayPalEnv();
+  const rampexConfig = validateRampexEnv();
+  const paypalEnabled = paypalConfig.ok;
+  const rampexEnabled = rampexConfig.ok;
 
   return (
     <div className="bg-background">
@@ -49,9 +57,24 @@ export default async function PaymentPage({ params, searchParams }: Props) {
           {t("bookingRef")}:{" "}
           <span className="font-mono text-foreground">{booking.bookingRef}</span>
         </p>
-        <p className="mt-2 inline-block rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200">
-          {t("livePaypal")}
-        </p>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {rampexEnabled && (
+            <p className="inline-block rounded-full bg-sky-50 px-3 py-1 text-xs font-medium text-sky-800 ring-1 ring-sky-200">
+              {t("rampexLive")}
+            </p>
+          )}
+          {paypalEnabled && (
+            <p className="inline-block rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200">
+              {t("livePaypal")}
+            </p>
+          )}
+        </div>
+
+        {returnedFromRampex && (
+          <p className="mt-4 rounded-2xl bg-sky-50 px-3 py-2 text-sm text-sky-900 ring-1 ring-sky-200">
+            {t("rampexReturnPending")}
+          </p>
+        )}
 
         {query.cancelled && (
           <p className="mt-4 rounded-2xl bg-amber-50 px-3 py-2 text-sm text-amber-800 ring-1 ring-amber-200">
@@ -93,10 +116,13 @@ export default async function PaymentPage({ params, searchParams }: Props) {
             {booking.package.title} — {amountLabel}
           </p>
 
-          {!paypalConfig.ok ? (
+          {!rampexEnabled && !paypalEnabled ? (
             <div className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-800 ring-1 ring-red-200">
-              <p className="font-semibold">{t("notConfigured", { mode: paypalConfig.mode })}</p>
+              <p className="font-semibold">{t("noPaymentsConfigured")}</p>
               <ul className="mt-2 list-disc pl-5">
+                {rampexConfig.issues.map((issue) => (
+                  <li key={issue}>{issue}</li>
+                ))}
                 {paypalConfig.issues.map((issue) => (
                   <li key={issue}>{issue}</li>
                 ))}
@@ -108,6 +134,8 @@ export default async function PaymentPage({ params, searchParams }: Props) {
               amount={chargeAmount}
               currency={booking.currency}
               amountLabel={amountLabel}
+              rampexEnabled={rampexEnabled}
+              paypalEnabled={paypalEnabled}
             />
           )}
         </div>
