@@ -10,8 +10,18 @@ export function getSupabaseUrl(): string | undefined {
   );
 }
 
+/**
+ * Server-only secret key for Storage uploads.
+ * Supabase dashboard now labels this "Secret key" (was: service_role).
+ * Publishable/anon key is NOT enough for reliable admin uploads.
+ */
 export function getSupabaseServiceKey(): string | undefined {
-  return process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() || undefined;
+  return (
+    process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ||
+    process.env.SUPABASE_SECRET_KEY?.trim() ||
+    process.env.SUPABASE_SECRET?.trim() ||
+    undefined
+  );
 }
 
 export function getSupabaseBucket(): string {
@@ -20,8 +30,14 @@ export function getSupabaseBucket(): string {
 
 export function validateSupabaseEnv(): { ok: boolean; issues: string[] } {
   const issues: string[] = [];
-  if (!getSupabaseUrl()) issues.push("Missing SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL)");
-  if (!getSupabaseServiceKey()) issues.push("Missing SUPABASE_SERVICE_ROLE_KEY");
+  if (!getSupabaseUrl()) {
+    issues.push("Missing SUPABASE_URL (Project URL from Supabase → Settings → API)");
+  }
+  if (!getSupabaseServiceKey()) {
+    issues.push(
+      "Missing SUPABASE_SECRET_KEY (or SUPABASE_SERVICE_ROLE_KEY). Use Secret key — not Publishable."
+    );
+  }
   return { ok: issues.length === 0, issues };
 }
 
