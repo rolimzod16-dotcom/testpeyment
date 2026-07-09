@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { ensureSchema } from "@/lib/ensure-schema";
 import { calculateDeposit, generateBookingRef } from "@/lib/utils";
 
 const bookingSchema = z.object({
@@ -16,6 +17,7 @@ const bookingSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    await ensureSchema();
     const body = await request.json();
     const data = bookingSchema.parse(body);
 

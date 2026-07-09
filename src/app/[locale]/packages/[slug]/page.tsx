@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
+import { ensureSchema } from "@/lib/ensure-schema";
 import { BookingForm } from "@/components/BookingForm";
 import { PackageCard } from "@/components/PackageCard";
 import { getCategoryMeta } from "@/lib/categories";
@@ -14,8 +15,13 @@ type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const pkg = await prisma.package.findUnique({ where: { slug } });
-  return { title: pkg?.title || "Package" };
+  try {
+    await ensureSchema();
+    const pkg = await prisma.package.findUnique({ where: { slug } });
+    return { title: pkg?.title || "Package" };
+  } catch {
+    return { title: "Package" };
+  }
 }
 
 export default async function PackagePage({ params }: Props) {
@@ -23,6 +29,7 @@ export default async function PackagePage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations("package");
+  await ensureSchema();
   const pkg = await prisma.package.findUnique({ where: { slug, active: true } });
   if (!pkg) notFound();
 

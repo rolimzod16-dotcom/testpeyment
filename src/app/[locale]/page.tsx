@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
+import { ensureSchema } from "@/lib/ensure-schema";
 import { HomeBanner } from "@/components/HomeBanner";
 import { FeaturedCategorySection } from "@/components/FeaturedCategorySection";
 import { CATEGORY_META } from "@/lib/categories";
@@ -30,6 +31,8 @@ export default async function HomePage({ params }: Props) {
   setRequestLocale(locale);
 
   const t = await getTranslations("home");
+
+  await ensureSchema();
 
   const [tours, hunting, survival] = await Promise.all([
     featuredFor("tours"),

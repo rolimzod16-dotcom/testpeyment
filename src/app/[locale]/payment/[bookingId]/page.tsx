@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { redirect } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
+import { ensureSchema } from "@/lib/ensure-schema";
 import { PayPalPaymentOptions } from "@/components/PayPalPaymentOptions";
 import { validatePayPalEnv } from "@/lib/paypal-config";
 import { getSiteUrl } from "@/lib/site-url";
@@ -21,6 +22,7 @@ export default async function PaymentPage({ params, searchParams }: Props) {
   const t = await getTranslations("payment");
   const query = await searchParams;
 
+  await ensureSchema();
   const booking = await prisma.booking.findUnique({
     where: { id: bookingId },
     include: { package: true },

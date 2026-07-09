@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
+import { ensureSchema } from "@/lib/ensure-schema";
 import { PackageCard } from "@/components/PackageCard";
 import { PageHero } from "@/components/PageHero";
 import { CATEGORY_META } from "@/lib/categories";
@@ -14,6 +15,8 @@ type Props = {
 export async function CategoryPackagesPage({ category, sort }: Props) {
   const t = await getTranslations(`categories.${category}`);
   const meta = CATEGORY_META[category];
+
+  await ensureSchema();
 
   const orderBy =
     sort === "price-desc"

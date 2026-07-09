@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
+import { ensureSchema } from "@/lib/ensure-schema";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 type Props = { params: Promise<{ locale: string; bookingId: string }> };
@@ -11,6 +12,7 @@ export default async function ConfirmationPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("confirmation");
 
+  await ensureSchema();
   const booking = await prisma.booking.findUnique({
     where: { id: bookingId },
     include: { package: true },
