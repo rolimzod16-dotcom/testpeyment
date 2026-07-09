@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ensureSchema } from "@/lib/ensure-schema";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET(request: Request) {
-  const password = request.headers.get("x-admin-password");
-  if (password !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const denied = requireAdmin(request);
+  if (denied) return denied;
 
   await ensureSchema();
   const bookings = await prisma.booking.findMany({
