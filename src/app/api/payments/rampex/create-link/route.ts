@@ -52,6 +52,9 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("[rampex create-link]", error);
     const message = error instanceof Error ? error.message : "Failed to create Rampex link";
-    return NextResponse.json({ error: message }, { status: 500 });
+    let code = "RAMPEX_ERROR";
+    if (/NO_WALLET|wallet not configured/i.test(message)) code = "NO_WALLET";
+    else if (/API key|INVALID_API|UNAUTHORIZED/i.test(message)) code = "API_KEY";
+    return NextResponse.json({ error: message, code }, { status: 500 });
   }
 }

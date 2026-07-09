@@ -13,8 +13,33 @@ export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ locale: string; bookingId: string }>;
-  searchParams: Promise<{ cancelled?: string; error?: string; rampex?: string }>;
+  searchParams: Promise<{
+    cancelled?: string;
+    error?: string;
+    rampex?: string;
+    code?: string;
+    detail?: string;
+  }>;
 };
+
+function rampexErrorMessage(
+  t: Awaited<ReturnType<typeof getTranslations>>,
+  code?: string,
+  detail?: string
+) {
+  switch (code) {
+    case "NO_WALLET":
+      return t("errorNoWallet");
+    case "API_KEY":
+      return t("errorApiKey");
+    case "MIN_AMOUNT":
+      return t("errorMinAmount");
+    case "NOT_FOUND":
+      return t("errorNotFound");
+    default:
+      return detail || t("failedDesc");
+  }
+}
 
 export default async function PaymentPage({ params, searchParams }: Props) {
   const { locale, bookingId } = await params;
@@ -84,7 +109,10 @@ export default async function PaymentPage({ params, searchParams }: Props) {
         {query.error && (
           <div className="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-800 ring-1 ring-red-200">
             <p className="font-semibold">{t("failedTitle")}</p>
-            <p className="mt-1">{t("failedDesc")}</p>
+            <p className="mt-1">{rampexErrorMessage(t, query.code, query.detail)}</p>
+            {query.code === "NO_WALLET" && (
+              <p className="mt-2 text-xs text-red-700/80">{t("errorNoWalletHint")}</p>
+            )}
           </div>
         )}
 

@@ -79,12 +79,14 @@ export async function createRampexPaymentLink(params: {
 
   const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
   if (!res.ok) {
+    const errObj = data.error as { message?: string; code?: string } | undefined;
+    const code = errObj?.code || (typeof data.code === "string" ? data.code : "");
     const msg =
-      (data.error as { message?: string } | undefined)?.message ||
+      errObj?.message ||
       (typeof data.error === "string" ? data.error : null) ||
       (typeof data.message === "string" ? data.message : null) ||
       `Rampex create link failed (${res.status})`;
-    throw new Error(msg);
+    throw new Error(code ? `${code}: ${msg}` : msg);
   }
 
   const nested = (data.data as Record<string, unknown> | undefined) || data;

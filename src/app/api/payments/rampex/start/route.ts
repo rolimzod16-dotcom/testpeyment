@@ -6,6 +6,14 @@ import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
 
+function paymentErrorRedirect(siteUrl: string, bookingId: string, code: string, detail?: string) {
+  const url = new URL(`${siteUrl}/payment/${bookingId}`);
+  url.searchParams.set("error", "1");
+  url.searchParams.set("code", code);
+  if (detail) url.searchParams.set("detail", detail.slice(0, 180));
+  return NextResponse.redirect(url.toString());
+}
+
 export async function GET(request: Request) {
   const siteUrl = getSiteUrl();
   const { searchParams } = new URL(request.url);
@@ -23,7 +31,7 @@ export async function GET(request: Request) {
     });
 
     if (!booking) {
-      return NextResponse.redirect(`${siteUrl}/payment/${bookingId}?error=1`);
+      return paymentErrorRedirect(siteUrl, bookingId, "NOT_FOUND");
     }
     if (booking.status === "paid") {
       return NextResponse.redirect(`${siteUrl}/confirmation/${bookingId}`);
@@ -52,6 +60,11 @@ export async function GET(request: Request) {
     return NextResponse.redirect(link.paymentUrl);
   } catch (error) {
     console.error("[rampex start]", error);
-    return NextResponse.redirect(`${siteUrl}/payment/${bookingId}?error=1`);
+    const message = error instanceof Error ? error.message : "Rampex error";
+    let code = "RAMPEX_ERROR";
+    if (/NO_WALLET|wallet not configured/i.test(message)) code = "NO_WALLET";
+    else if (/API key|INVALID_API|UNAUTHORIZED/i.test(message)) code = "API_KEY";
+    else if (/minimum|MIN/i.test(message)) code = "MIN_AMOUNT";
+    return paymentErrorRedirect(siteUrl, bookingId, code, message);
   }
 }
