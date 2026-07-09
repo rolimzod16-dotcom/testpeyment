@@ -71,7 +71,7 @@ export async function generateReceiptPdf(booking: ReceiptData): Promise<Buffer> 
       ["Guests", String(booking.guests)],
       ["Total Package Price", `$${booking.totalAmount.toFixed(2)} ${booking.currency}`],
       ["Deposit Paid", `$${booking.depositAmount.toFixed(2)} ${booking.currency}`],
-      ["Payment Method", booking.paymentMethod || "PayPal"],
+      ["Payment Method", booking.paymentMethod || "Rampex"],
       ["Transaction ID", booking.paymentId || "N/A"],
       ["Status", booking.status.toUpperCase()],
     ];
